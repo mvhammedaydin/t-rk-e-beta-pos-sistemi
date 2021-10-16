@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" name="viewport">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>AKAS Automaterialen</title>
+    <link rel="icon" type="image/x-icon" href="assets/img/logo.png"/>
+    <link rel="icon" href="assets/img/logo.png" type="image/png" sizes="16x16">
+    <link rel="stylesheet" href="assets/vendor/pace/pace.css">
+    <script src="assets/vendor/pace/pace.min.js"></script>
+    <!--vendors-->
+    <link rel="stylesheet" type="text/css" href="assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker3.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendor/jquery-scrollbar/jquery.scrollbar.css">
+    <link rel="stylesheet" href="assets/vendor/select2/css/select2.min.css">
+    <link rel="stylesheet" href="assets/vendor/jquery-ui/jquery-ui.min.css">
+    <link rel="stylesheet" href="assets/vendor/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="assets/vendor/timepicker/bootstrap-timepicker.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Hind+Vadodara:400,500,600" rel="stylesheet">
+    <link rel="stylesheet" href="assets/fonts/jost/jost.css">
+    <!--Material Icons-->
+    <link rel="stylesheet" type="text/css" href="assets/fonts/materialdesignicons/materialdesignicons.min.css">
+    <!--Bootstrap + atmos Admin CSS-->
+    <link rel="stylesheet" type="text/css" href="assets/css/atmos.css">
+    <!-- Additional library for page -->
+    <link rel="stylesheet" href="assets/vendor/datedropper/datedropper.min.css">
+    <link rel="stylesheet" href="assets/vendor/dropzone/dropzone.css">
+
+    <style>
+        .optReport {
+            float: right;
+            height: 200%;
+            margin-right: 20px;
+            font-size: 20px;
+        }
+
+    </style>
+
+</head>
+<!--body with default sidebar pinned -->
+<body class="sidebar">
+<!--sidebar Begins-->
+<aside class="admin-sidebar" id="header">
+
+</aside>
+<!--sidebar Ends-->
+    
+
+<main class="admin-main">
+
+    <section class="admin-content">
+        <div class="container-fluid bg-dark m-b-30">
+            <div class="row">
+
+                <div class="col-12 text-white p-t-40 p-b-90">
+                    <button class="btn btn-primary optReport" onclick="location.href='addPayment.html'"><i class="fa fa-plus" style="margin-right: 10px;"></i>Tahsilat Ekle</button>
+                    <button class="btn btn-primary optReport" onclick="location.href='addInvoice.html'"><i class="fa fa-plus" style="margin-right: 10px;"></i>Fatura Ekle</button>
+                    <h4> Faturalarım</h4>
+                    <p class="opacity-75 ">
+                        Aşağıda bulunan filtreler aracılığıyla tarih ve distribütör veya sadece distribütör tabanlı faturalarınızı alabilirsiniz.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="card col-md-12 m-b-30 ">
+                    <div class="row" style="padding: 0px 40px;">
+                        <div class="card-body col-md-4">
+                            <div >
+                                <div class=" form-group">
+                                    <label>Distribütör</label>
+                                    <select class="form-control form-control-lg" id="companyOpt">
+                                        <option value="0" selected>Tümü</option>
+                                    </select>                                
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body col-md-4">
+                            <div >
+                                <div class="font-secondary">
+
+                                </div>
+                                <div class=" form-group">
+                                    <label  >Başlangıç Tarihi</label>
+                                    <input id="startDate" class="form-control datedropper" data-large-mode="true" type="text">
+                                </div>
+                            </div>        
+                        </div>
+                        <div class="card-body col-md-4">
+                            <div>
+                                <div class="font-secondary">
+
+                                </div>
+                                <div class=" form-group">
+                                    <label  >Bitiş Tarihi</label>
+                                    <input id="endDate" class="form-control datedropper" data-large-mode="true" type="text">
+                                </div>
+                            </div>        
+                        </div>
+                        <div class="card-body col-md-6">
+                            <div>
+                                <button style="min-width:100%" class="btn btn-warning" onclick="getBoth();">Uygula</button>
+                            </div>
+                        </div>
+                        <div class="card-body col-md-6">
+                            <div>
+                                <button style="min-width:100%" class="btn btn-danger" onclick="location.reload();">Filtreleri Temizle</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container-fluid" style="margin-top: 30px;" id="divGrG">
+                <div class="row">
+                    <div class="col-lg-12  m-b-30">
+                        <div class="card">
+                            <div style="padding: 20px 20px;"> <h4>Genel Grafik</h4></div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="card">
+                                            <div class="text-center card-body">
+                                                <div class="text-warning">
+                                                    <div class="avatar avatar-sm">
+                                                        <span class="avatar-title rounded-circle badge-soft-warning"><i class="mdi mdi-arrange-send-to-back mdi-18px"></i> </span>
+                                                    </div>
+                                                </div>
+                                                <div class=" text-center">
+                                                    <h3>₺<span id="totalAssignG"> </span></h3>
+                                                    <h3 style="display: none;">₺<span id="totalPaidG"> </span></h3>
+                                                    <h3 style="display: none;">₺<span id="totalAmountG"> </span></h3>
+                                                    <h3 style="display: none;">₺<span id="totalPaymentG"> </span></h3>
+                                                </div>
+                                                <div class="text-overline ">
+                                                    Cari Hesap
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container-fluid" style="margin-top: 30px;" id="divGr">
+                <div class="row">
+                    <div class="col-lg-12  m-b-30">
+                        <div class="card">
+                            <div style="padding: 20px 20px;"> <h4>Filtre Bazlı Grafik</h4></div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="text-center card-body">
+                                                <div class="text-info   ">
+                                                    <div class="avatar avatar-sm ">
+                                                        <span class="avatar-title rounded-circle badge-soft-info"><i class="mdi mdi-account-convert mdi-18px"></i> </span>             
+                                                    </div>
+                                                </div>
+                                                <div class=" text-center">
+                                                    <h3 id="CompanyName"></h3>
+                                                </div>
+                                                <div class="text-overline ">
+                                                    Distribütör
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="text-center card-body">
+                                                <div class="text-warning">
+                                                    <div class="avatar avatar-sm">
+                                                        <span class="avatar-title rounded-circle badge-soft-warning"><i class="mdi mdi-arrange-send-to-back mdi-18px"></i> </span>
+                                                    </div>
+                                                </div>
+                                                <div class=" text-center">
+                                                    <h3>₺<span id="totalAssign"> </span></h3>
+                                                    <h3 style="display: none;">₺<span id="totalPaid"> </span></h3>
+                                                    <h3 style="display: none;">₺<span id="totalAmount"> </span></h3>
+                                                    <h3 style="display: none;">₺<span id="totalPayment"> </span></h3>
+                                                </div>
+                                                <div class="text-overline ">
+                                                    Cari Hesap
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="container-fluid" id="divIn" style="margin-top: 10px;">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div>
+                                    <button class="btn btn-danger" onclick="refreshOrder();">Sıralamayı Sıfırla</button>
+                                    <p style="float:right;">Toplam Fatura: <span id="totalInvoiceCount"></span></p>
+                                </div>
+                                <div class="table-responsive p-t-10">
+                                    <table class="table" style="width:100%" id="invoiceTable">
+                                        <thead>
+                                            <tr>
+                                                <th><button onclick="setOrderInvoice(this);" value="1" class="order-btn btn btn-primary">Fatura No <i style="margin-left: 15px;" class="fa"></i></button></th>
+                                                <th><button onclick="setOrderInvoice(this);" value="3" class="order-btn btn btn-primary">Distribütör <i style="margin-left: 15px;" class="fa"></i></button></th>
+                                                <th><button onclick="setOrderInvoice(this);" value="5" class="order-btn btn btn-primary">Fatura Tarih <i style="margin-left: 15px;" class="fa"></i></button></th>
+                                                <th><button onclick="setOrderInvoice(this);" value="7" class="order-btn btn btn-primary">Fatura Tutarı <i style="margin-left: 15px;" class="fa"></i></button></th>
+                                                <th><button onclick="setOrderInvoice(this);" value="9" class="order-btn btn btn-primary">Ödenen Tutar <i style="margin-left: 15px;" class="fa"></i></button></th>
+                                                <th><button onclick="setOrderInvoice(this);" value="11" class="order-btn btn btn-primary">Ödeme Yöntemi <i style="margin-left: 15px;" class="fa"></i></button></th>
+                                                <th><button onclick="setOrderInvoice(this);" value="13" class="order-btn btn btn-primary">Kart Ödenen <i style="margin-left: 15px;" class="fa"></i></button></th>
+                                                <th><button onclick="setOrderInvoice(this);" value="15" class="order-btn btn btn-primary">Nakit Ödenen <i style="margin-left: 15px;" class="fa"></i></button></th>
+                                                <th>Eylemler</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+    
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="container-fluid" id="divIn" style="margin-top: 10px;">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div>
+                                    <button class="btn btn-danger" onclick="refreshOrder();">Sıralamayı Sıfırla</button>
+                                    <p style="float:right;">Toplam Tahsilat: <span id="totalPaymentCount"></span></p>
+                                </div>
+                                <div class="table-responsive p-t-10">
+                                    <table class="table" style="width:100%" id="paymentTable">
+                                        <thead>
+                                            <tr>
+                                                <th><button onclick="setOrderInvoice(this);" value="1" class="order-btnP btn btn-primary">Distribütör <i style="margin-left: 15px;" class="fa"></i></button></th>
+                                                <th><button onclick="setOrderInvoice(this);" value="3" class="order-btnP btn btn-primary">Tahsilat Tarih <i style="margin-left: 15px;" class="fa"></i></button></th>
+                                                <th><button onclick="setOrderInvoice(this);" value="5" class="order-btnP btn btn-primary">Ödenen Miktar <i style="margin-left: 15px;" class="fa"></i></button></th>
+                                                <th><button onclick="setOrderInvoice(this);" value="7" class="order-btnP btn btn-primary">Ödeme Yöntemi <i style="margin-left: 15px;" class="fa"></i></button></th>
+                                                <th><button onclick="setOrderInvoice(this);" value="9" class="order-btnP btn btn-primary">Kart Ödenen <i style="margin-left: 15px;" class="fa"></i></button></th>
+                                                <th><button onclick="setOrderInvoice(this);" value="11" class="order-btnP btn btn-primary">Nakit Ödenen <i style="margin-left: 15px;" class="fa"></i></button></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+    
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+
+        </div>
+    </section>
+
+    <div class="modal fade bd-example-modal-lg invoiceDetails" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myLargeModalLabel">FATURA DETAYI</h5>
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="table-responsive p-t-10">
+                                        <table class="table" style="width:100%" id="invoiceDetailsTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Ürün</th>
+                                                    <th>Adet</th>
+                                                    <th>Alış Fiyatı</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+        
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        Kapat
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>    
+
+</main>
+
+
+<script src="./assets/vendor/jquery/jquery.min.js"></script>
+<script src="./assets/vendor/jquery/jquery.min.js"></script>
+<script src="assets/vendor/jquery-ui/jquery-ui.min.js"></script>
+<script src="assets/vendor/popper/popper.js"></script>
+<script src="assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/vendor/select2/js/select2.full.min.js"></script>
+<script src="assets/vendor/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+<script src="assets/vendor/listjs/listjs.min.js"></script>
+<script src="assets/vendor/moment/moment.min.js"></script>
+<script src="assets/vendor/daterangepicker/daterangepicker.js"></script>
+<script src="assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+<script src="assets/vendor/bootstrap-notify/bootstrap-notify.min.js"></script>
+<script src="assets/js/fontawesome.min.js"></script>
+<script src="assets/js/atmos.js"></script>
+<script src="assets/js/dashboard.js"></script>
+<!--page specific scripts for demo-->
+
+<script src="assets/vendor/timepicker/bootstrap-timepicker.min.js"></script>
+<script src="assets/vendor/datedropper/datedropper.js"></script>
+<script src="assets/vendor/dropzone/dropzone.js"   ></script>
+<script src="assets/vendor/jquery.mask/jquery.mask.min.js"></script>
+<script src="assets/js/form-data.js"></script>
+
+<script>
+    // config variables
+    var config = require("./src/config");
+    var db = config.db;
+    
+    // preset localstorage
+    if (localStorage.getItem("adminOrderInvoice") === null) {
+        localStorage.setItem("adminOrderInvoice", 0);
+    }
+    // preset localstorage
+    if (localStorage.getItem("adminOrderPayment") === null) {
+        localStorage.setItem("adminOrderPayment", 0);
+    }
+
+
+
+    $(document).ready(function(){
+        $("#header").load("header.html"); 
+        getCompany();
+        getInvoices();
+        getPayments();
+        getGraph();
+        getGraphG();
+        getCompName();
+        $(".order-btn").each(function(){
+            var orderValue = Number($(this).val());
+            if(orderValue == Number(localStorage.getItem("adminOrderInvoice"))){
+                $(this).children("i").addClass("fa-chevron-down");
+                $(this).val(orderValue + 1);
+            }else if(orderValue + 1 == Number(localStorage.getItem("adminOrderInvoice"))){
+                $(this).children("i").addClass("fa-chevron-up");
+            }
+        });
+        $(".order-btnP").each(function(){
+            var orderValue = Number($(this).val());
+            if(orderValue == Number(localStorage.getItem("adminOrderPayment"))){
+                $(this).children("i").addClass("fa-chevron-down");
+                $(this).val(orderValue + 1);
+            }else if(orderValue + 1 == Number(localStorage.getItem("adminOrderPayment"))){
+                $(this).children("i").addClass("fa-chevron-up");
+            }
+        });
+    });
+
+    // GET GR
+    function getGraph(){
+        var company = document.getElementById("companyOpt").value;
+        companySql = " AND invoices.company = \'"+ company +"\' "
+
+        let sql = 
+            `SELECT 
+            SUM(invoices.ptotal) AS totalPaid
+            FROM invoices
+            wHERE invoices.view = 1`+ companySql +`;`;
+        db.all(sql, (err, rows) => {
+            if(err){console.log(err);}        
+            $("#totalPaid").empty();
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                if(row.totalPaid == undefined){
+
+                } else {
+                $("#totalPaid").append(
+                    ``+ row.totalPaid +``);
+                }
+            }
+        });
+
+        let sql2 = 
+            `SELECT 
+            SUM(invoices.itotal) AS totalAmount
+            FROM invoices
+            wHERE invoices.view = 1`+ companySql +`;`;
+        db.all(sql2, (err, rows2) => {
+            if(err){console.log(err);}        
+            $("#totalAmount").empty();
+            for (let i = 0; i < rows2.length; i++) {
+                const row2 = rows2[i];
+                if(row2.totalAmount == undefined){
+
+                } else {
+                $("#totalAmount").append(
+                    ``+ row2.totalAmount +``);
+                }
+            }
+        });
+
+        companySqlp = " AND invoice_pay.company = \'"+ company +"\' "
+
+        let sql3 = 
+            `SELECT 
+            SUM(invoice_pay.amount) AS totalPayment
+            FROM invoice_pay
+            wHERE invoice_pay.view = 1`+ companySqlp +`;`;
+        db.all(sql3, (err, rows3) => {
+            if(err){console.log(err);}        
+            $("#totalPayment").empty();
+            for (let i = 0; i < rows3.length; i++) {
+                const row3 = rows3[i];
+                if(row3.totalPayment == undefined){
+
+                } else {
+                    $("#totalPayment").append(
+                    ``+ row3.totalPayment +``);
+                }
+            }
+        });
+    }
+
+        // GET GR
+        function getGraphG(){
+        let sql = 
+            `SELECT 
+            SUM(invoices.ptotal) AS totalPaid
+            FROM invoices
+            wHERE invoices.view = 1;`;
+        db.all(sql, (err, rows) => {
+            if(err){console.log(err);}        
+            $("#totalPaidG").empty();
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                if(row.totalPaid == undefined){
+
+                } else {
+                $("#totalPaidG").append(
+                    ``+ row.totalPaid +``);
+                }
+            }
+        });
+
+        let sql2 = 
+            `SELECT 
+            SUM(invoices.itotal) AS totalAmount
+            FROM invoices
+            wHERE invoices.view = 1;`;
+        db.all(sql2, (err, rows2) => {
+            if(err){console.log(err);}        
+            $("#totalAmountG").empty();
+            for (let i = 0; i < rows2.length; i++) {
+                const row2 = rows2[i];
+                if(row2.totalAmount == undefined){
+                } else {
+                $("#totalAmountG").append(
+                    ``+ row2.totalAmount +``);
+                }
+            }
+        });
+
+        let sql3 = 
+            `SELECT 
+            SUM(invoice_pay.amount) AS totalPayment
+            FROM invoice_pay
+            wHERE invoice_pay.view = 1;`;
+        db.all(sql3, (err, rows3) => {
+            if(err){console.log(err);}        
+            $("#totalPaymentG").empty();
+            for (let i = 0; i < rows3.length; i++) {
+                const row3 = rows3[i];
+                if(row3.totalPayment == undefined){
+                } else {
+                    $("#totalPaymentG").append(
+                    ``+ row3.totalPayment +``);
+                }
+            }
+        });
+    }
+
+    // GET COMPANY NAME
+    function getCompName(){
+        setTimeout(
+        function () {
+
+        var totalPaidEnd = Number(document.getElementById("totalPaid").innerHTML);
+        var totalAmountEnd = Number(document.getElementById("totalAmount").innerHTML);
+        var totalPaymentEnd = Number(document.getElementById("totalPayment").innerHTML);
+
+        if(totalPaymentEnd == null){
+            totalPaymentEnd = 0;
+            var totalAssign = ((totalPaidEnd - totalAmountEnd) + totalPaymentEnd);
+            $("#totalAssign").empty();
+            $("#totalAssign").append(
+                        ``+ totalAssign.toFixed(2) +``);
+        } else {
+            var totalAssign = ((totalPaidEnd - totalAmountEnd) + totalPaymentEnd);
+            $("#totalAssign").empty();
+            $("#totalAssign").append(
+                        ``+ totalAssign.toFixed(2) +``);
+        }
+        var company = document.getElementById("companyOpt").value;
+
+        if(company != "0"){
+            $("#CompanyName").empty();
+            $("#CompanyName").append(
+                        ``+ company +``)
+        }
+                    ;}, 100);
+
+        setTimeout(
+        function () {
+
+        var totalPaidEndG = Number(document.getElementById("totalPaidG").innerHTML);
+        var totalAmountEndG = Number(document.getElementById("totalAmountG").innerHTML);
+        var totalPaymentEndG = Number(document.getElementById("totalPaymentG").innerHTML);
+
+        if(totalPaymentEndG == null){
+            totalPaymentEndG = 0;
+            var totalAssignG = ((totalPaidEndG- totalAmountEndG) + totalPaymentEndG);
+            $("#totalAssignG").empty();
+            $("#totalAssignG").append(
+                        ``+ totalAssignG.toFixed(2) +``);
+        } else {
+            var totalAssignG = ((totalPaidEndG - totalAmountEndG) + totalPaymentEndG);
+            $("#totalAssignG").empty();
+            $("#totalAssignG").append(
+                        ``+ totalAssignG.toFixed(2) +``);
+        }
+        ;}, 100);        
+    }
+
+    function getBoth(){
+        getInvoices();
+        getPayments();
+        getGraph();
+    }
+
+    // GET INVOICES
+    function getInvoices(){
+        getCompName();
+        switch (Number(localStorage.getItem("adminOrderInvoice"))) {
+            case 1:
+                var orderSqlInvoice = " ORDER BY invoices.code ASC";
+            break;
+            case 2:
+                var orderSqlInvoice = " ORDER BY invoices.code DESC";
+            break;
+            case 3:
+                var orderSqlInvoice = " ORDER BY invoices.company ASC";
+            break;
+            case 4:
+                var orderSqlInvoice = " ORDER BY invoices.company DESC";
+            break;
+            case 5:
+                var orderSqlInvoice = " ORDER BY invoices.date ASC";
+            break;
+            case 6:
+                var orderSqlInvoice = " ORDER BY invoices.date DESC";
+            break;
+            case 7:
+                var orderSqlInvoice = " ORDER BY invoices.itotal ASC";
+            break;
+            case 8:
+                var orderSqlInvoice = " ORDER BY invoices.itotal DESC";
+            break;
+            case 9:
+                var orderSqlInvoice = " ORDER BY invoices.ptotal ASC";
+            break;
+            case 10:
+                var orderSqlInvoice = " ORDER BY invoices.ptotal DESC";
+            break;
+            case 11:
+                var orderSqlInvoice = " ORDER BY invoices.payment ASC";
+            break;
+            case 12:
+                var orderSqlInvoice = " ORDER BY invoices.payment DESC";
+            break;
+            case 13:
+                var orderSqlInvoice = " ORDER BY invoices.card ASC";
+            break;
+            case 14:
+                var orderSqlInvoice = " ORDER BY invoices.card DESC";
+            break;
+            case 15:
+                var orderSqlInvoice = " ORDER BY invoices.cash ASC";
+            break;
+            case 16:
+                var orderSqlInvoice = " ORDER BY invoices.cash DESC";
+            break;
+            default:
+                var orderSqlInvoice = " ORDER BY invoices.id DESC";
+            break;
+        }               
+
+        var company = document.getElementById("companyOpt").value;
+        var startDate = document.getElementById("startDate").value; 
+        var endDate = document.getElementById("endDate").value;
+
+        if(company == 0){
+            companySql = " ";
+        } else {
+            companySql = " AND invoices.company = \'"+ company +"\' ";
+        }
+
+        let sql = 
+            `SELECT *
+            FROM invoices
+            WHERE invoices.view = 1`+ companySql +`
+            AND invoices.date >= "`+ startDate +`"
+            AND invoices.date <= "`+ endDate +`"
+            ` + orderSqlInvoice + `;`;
+        db.all(sql, (err, rows) => {
+            if(err){console.log(err);}        
+            $("#invoiceTable tbody").empty();
+            $("#totalInvoiceCount").html(rows.length);
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                $("#invoiceTable tbody").append(
+                    `<tr>
+                        <td>#` + row.code + `</td>
+                        <td>` + row.company + `</td>
+                        <td>` + row.date + `</td>
+                        <td>₺` + row.itotal +`</td>
+                        <td>₺` + row.ptotal +`</td>
+                        <td>` + row.payment +`</td>
+                        <td>₺` + row.card +`</td>
+                        <td>₺` + row.cash +`</td>
+                        <td><button class="btn btn-success" onclick="getInvoiceDetails(`+ row.code +`);" data-toggle="modal" data-target=".invoiceDetails"><i class="fa fa-search"></i></button></td>
+                    </tr>`);
+            }
+        });
+    }
+
+    function getInvoiceDetails(code){
+        let sql = 
+            `SELECT *
+            FROM invoices_products
+            WHERE invoices_products.idi = `+ code +`;`;
+        db.all(sql, (err, rows) => {
+            if(err){console.log(err);}        
+            $("#invoiceDetailsTable tbody").empty();
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                $("#invoiceDetailsTable tbody").append(
+                    `<tr>
+                        <td>` + row.name + `</td>
+                        <td>` + row.qty + `</td>
+                        <td>₺` + row.buyprice +`</td>
+                    </tr>`);
+            }
+        });
+    }
+
+    function setOrderInvoice(el){
+        var value = Number($(el).val());
+
+        // reset all order buttons
+        $(".order-btn").each(function(){
+            var orderValue = Number($(this).val());
+            if(orderValue % 2 == 0 && orderValue != value){
+                $(this).val(orderValue - 1);
+            }
+        });
+        $(".order-btn i").removeClass("fa-chevron-down fa-chevron-up");
+
+        if(value % 2 == 0){
+            $(el).val(value - 1);
+            $(el).children("i").addClass("fa-chevron-up");
+        }else{
+            $(el).val(value + 1);
+            $(el).children("i").addClass("fa-chevron-down");
+        }
+        
+        localStorage.setItem("adminOrderInvoice", value);
+        getInvoices();
+    }
+
+        // GET PAYMENTS
+        function getPayments(){
+        switch (Number(localStorage.getItem("adminOrderPayment"))) {
+            case 1:
+                var orderSqlPayment = " ORDER BY invoice_pay.company ASC";
+            break;
+            case 2:
+                var orderSqlPayment = " ORDER BY invoice_pay.company DESC";
+            break;
+            case 3:
+                var orderSqlPayment = " ORDER BY invoice_pay.date ASC";
+            break;
+            case 4:
+                var orderSqlPayment = " ORDER BY invoice_pay.date DESC";
+            break;
+            case 5:
+                var orderSqlPayment = " ORDER BY invoice_pay.amount ASC";
+            break;
+            case 6:
+                var orderSqlPayment = " ORDER BY invoice_pay.amount DESC";
+            break;
+            case 7:
+                var orderSqlPayment = " ORDER BY invoice_pay.payment ASC";
+            break;
+            case 8:
+                var orderSqlPayment = " ORDER BY invoice_pay.payment DESC";
+            break;
+            case 9:
+                var orderSqlPayment = " ORDER BY invoice_pay.card ASC";
+            break;
+            case 10:
+                var orderSqlPayment = " ORDER BY invoice_pay.card DESC";
+            break;
+            case 11:
+                var orderSqlPayment = " ORDER BY invoice_pay.cash ASC";
+            break;
+            case 12:
+                var orderSqlPayment = " ORDER BY invoice_pay.cash DESC";
+            break;
+            default:
+                var orderSqlPayment = " ORDER BY invoice_pay.id DESC";
+            break;
+        }               
+
+        var companyp = document.getElementById("companyOpt").value;
+        var startDatep = document.getElementById("startDate").value; 
+        var endDatep = document.getElementById("endDate").value;
+
+        companySqlp = " AND invoice_pay.company = \'"+ companyp +"\' "
+
+        let sql = 
+            `SELECT *
+            FROM invoice_pay
+            WHERE invoice_pay.view = 1`+ companySqlp +`
+            AND invoice_pay.date >= "`+ startDatep +`"
+            AND invoice_pay.date <= "`+ endDatep +`"
+            ` + orderSqlPayment + `;`;
+        db.all(sql, (err, rows) => {
+            if(err){console.log(err);}
+            console.log(sql);        
+            $("#paymentTable tbody").empty();
+            $("#totalPaymentCount").html(rows.length);
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                $("#paymentTable tbody").append(
+                    `<tr>
+                        <td>` + row.company + `</td>
+                        <td>` + row.date + `</td>
+                        <td>₺` + row.amount +`</td>
+                        <td>` + row.payment +`</td>
+                        <td>₺` + row.card +`</td>
+                        <td>₺` + row.cash +`</td>
+                    </tr>`);
+            }
+        });
+    }
+
+    function setOrderPayment(el){
+        var value = Number($(el).val());
+
+        // reset all order buttons
+        $(".order-btnP").each(function(){
+            var orderValue = Number($(this).val());
+            if(orderValue % 2 == 0 && orderValue != value){
+                $(this).val(orderValue - 1);
+            }
+        });
+        $(".order-btnP i").removeClass("fa-chevron-down fa-chevron-up");
+
+        if(value % 2 == 0){
+            $(el).val(value - 1);
+            $(el).children("i").addClass("fa-chevron-up");
+        }else{
+            $(el).val(value + 1);
+            $(el).children("i").addClass("fa-chevron-down");
+        }
+        
+        localStorage.setItem("adminOrderPayment", value);
+        getPayments();
+    }
+
+    // GET COMPANY
+    function getCompany(){
+        let sql = `SELECT company.name FROM company ORDER BY company.name ASC`;
+        db.all(sql, (err, rows) => {
+            if(err){console.log(err);}
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                $("#companyOpt").append(
+                    `<option value="`+ row.name +`">`+ row.name +`</option>`);        
+            }
+        });
+    }
+
+    function refreshOrder(){
+        localStorage.clear();
+        location.reload();
+    }
+</script>
+
+</body>
+</html>

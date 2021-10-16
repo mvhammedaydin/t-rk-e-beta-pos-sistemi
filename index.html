@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" name="viewport">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-touch-fullscreen" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>AKAS Automaterialen</title>
+<link rel="icon" type="image/x-icon" href="assets/img/logo.png"/>
+<link rel="icon" href="assets/img/logo.png" type="image/png" sizes="16x16">
+<link rel="stylesheet" href="assets/vendor/pace/pace.css">
+<script src="assets/vendor/pace/pace.min.js"></script>
+<!--vendors-->
+<link rel="stylesheet" type="text/css" href="assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker3.min.css">
+<link rel="stylesheet" type="text/css" href="assets/vendor/jquery-scrollbar/jquery.scrollbar.css">
+<link rel="stylesheet" href="assets/vendor/select2/css/select2.min.css">
+<link rel="stylesheet" href="assets/vendor/jquery-ui/jquery-ui.min.css">
+<link rel="stylesheet" href="assets/vendor/daterangepicker/daterangepicker.css">
+<link rel="stylesheet" href="assets/vendor/timepicker/bootstrap-timepicker.min.css">
+<link href="https://fonts.googleapis.com/css?family=Hind+Vadodara:400,500,600" rel="stylesheet">
+<link rel="stylesheet" href="assets/fonts/jost/jost.css">
+<link rel="stylesheet" href="assets/css/font-awesome.min.css">
+<!--Material Icons-->
+<link rel="stylesheet" type="text/css" href="assets/fonts/materialdesignicons/materialdesignicons.min.css">
+<!--Bootstrap + atmos Admin CSS-->
+<link rel="stylesheet" type="text/css" href="assets/css/atmos.css">
+<!-- Additional library for page -->
+
+
+<style>
+    .productOptions {
+        width: 150px;
+        height: 100px;
+        font-size: 20px;
+        margin-bottom: 10px;
+        margin-left: 10px;
+    }
+
+    .productOptions:focus {
+        box-shadow: 0 0 0 0.2rem rgba(0, 0, 0);
+    }
+
+    .funcButtons button {
+        background-color: gray;
+        border-color: black;
+        width: 150px;
+        height: 100px;
+        font-size: 20px;
+        margin-bottom: 10px;
+        margin-left: 10px;
+    }
+
+    .funcButtons button:hover {
+        background-color: black;
+        border-color: grey;
+    }
+    
+    .SButtons button {
+        background-color: grey;
+        border-color: black;
+        width: 150px;
+        height: 100px;
+        font-size: 20px;
+        margin-bottom: 10px;
+        margin-left: 10px;
+    }
+
+    .SButtons button:hover {
+        background-color: black;
+        border-color: grey;
+    }
+
+    .shortcutButtons button {
+        background-color: grey;
+        border-color: black;
+        width: 150px;
+        height: 100px;
+        font-size: 20px;
+        margin-bottom: 10px;
+        margin-left: 10px;
+    }
+
+    .shortcutButtons button:hover {
+        background-color: black;
+        border-color: grey;
+    }
+
+    .funcButtons .cancel{
+        background-color: #f2545b;
+        border-color: #f2545b;
+        width: 150px;
+        height: 100px;
+        font-size: 20px;
+        margin-bottom: 10px;
+        margin-left: 10px;
+    }
+
+    .funcButtons .cancel:hover {
+        background-color: #c91821;
+        border-color: #f2545b;
+    }
+
+    .funcButtons .hold{
+        background-color: rgb(65, 127, 182);
+        border-color: rgb(65, 127, 182);
+        width: 150px;
+        height: 100px;
+        font-size: 20px;
+        margin-bottom: 10px;
+        margin-left: 10px;
+    }
+
+    .funcButtons .hold:hover {
+        background-color: rgb(65, 127, 182);
+        border-color:rgb(65, 127, 182);
+    }
+
+    .funcButtons .order{
+        background-color: #0c9;
+        border-color: #0c9;
+        width: 150px;
+        height: 100px;
+        font-size: 20px;
+        margin-bottom: 10px;
+        margin-left: 10px;
+    }
+
+    .funcButtons .order:hover {
+        background-color: rgb(2, 143, 108);
+        border-color: #0c9;
+    }
+</style>
+
+
+
+</head>
+<!--body with default sidebar pinned -->
+<body class="sidebar">
+<!--sidebar Begins-->
+<aside class="admin-sidebar" id="header">
+
+</aside>
+<!--sidebar Ends-->
+
+
+<main class="admin-main">
+
+    <section class="admin-content">
+        <!-- BEGIN PlACE PAGE CONTENT HERE -->
+        <!--  container or container-fluid as per your need -->
+        <div class="container-fluid" style="padding: 40px 20px;">
+            <div id="pos_view">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card-box" id="card-box">
+                            <div class="col-md-12">
+                                <div class="input-group m-t-5">
+                                    <div class="input-group mb-3">
+                                        <input type="text" id="barcodeScanner" class="form-control" placeholder="Barkod" aria-label="Barkod" aria-describedby="basic-addon1" autofocus>
+                                        <button id="barcodeScan" onclick="addProduct($('#barcodeScanner').val());">scan</button>
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1"><i class="fa fa-barcode"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive p-t-10" style="min-height: 800px;">
+                                <table class="table" id="cartTable">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Ürün</th>
+                                            <th>Birim Fİyat</th>
+                                            <th>Adet</th>
+                                            <th>Toplam Fİyat</th>
+                                            <th>
+                                                <button onclick="cancelOrder();" class="btn btn-danger btn-xs"><i class="fa fa-times"></i></button>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody style="height: calc(100vh - 80px);">
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <hr>
+                            <div class="m-t-5">
+                                <div class="row" style="font-size: 30px;">
+                                    <div class="col-md-6">Toplam Ürün</div>
+                                    <div class="col-md-6">: <span id="totalPiece">0</span> Adet</div>
+                                </div>
+                                <div class="row" style="font-size: 30px;">
+                                    <div class="col-md-6">Toplam Tutar</div>
+                                    <div class="col-md-6">: ₺<span id="totalPrice"> </span></div>
+                                </div>
+                            </div>            
+                        </div>
+                    </div>
+                    <div class="col-md-6" style="height: 500px;">
+                        <div class="card-box">
+                            <div class="row">
+                                <div class="col-md-12 SButtons" id="SButtons">
+
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-12 shortcutButtons">
+                                    <button class="btn btn-primary" onclick="getSB(1);"> 1</button>
+
+                                    <button class="btn btn-primary" onclick="getSB(2);"> 2</button>
+
+                                    <button class="btn btn-primary" onclick="getSB(3);"> 3</button>
+
+                                    <button class="btn btn-primary" onclick="getSB(4);"> 4</button>
+
+                                    <button class="btn btn-primary" onclick="getSB(5);"> 5</button>
+
+                                    <button class="btn btn-primary" onclick="getSB(6);"> 6</button>
+
+                                    <button class="btn btn-primary" data-toggle="modal" data-target=".organizer"> Kısayolları Düzenle</button>
+                                </div>
+                            </div>
+                            <hr>            
+                            <div class="row">
+                                <div class="col-md-12 funcButtons">
+                                    <button class="btn btn-primary" data-toggle="modal" data-target=".checkPrice"> Ürün Fiyat Gör</button>
+                                    <button class="btn btn-primary" data-toggle="modal" data-target=".taxCalc"> Ürün Gelişi Hesaplama</button>
+                                    <button class="btn btn-primary" onclick="reAddProduct();"> Ürün Tekrar Ekle</button>
+                                    <button class="btn btn-primary hold" onclick="showHoldOrders();"> Askıdaki İşlemler</button>
+                                    <button class="btn btn-primary hold" onclick="holdCurOrder();"> Askıya Al</button>
+                                    <button class="btn btn-primary order" onclick="createOrder(1);"> Nakit Ödeme Al</button>
+                                    <button class="btn btn-primary order" onclick="createOrder(2);"> Kart Ödeme Al</button>
+                                    <button class="btn btn-primary order" data-toggle="modal" data-target=".cardcash"> Nakit/Kart Ödeme Al</button>
+                                    <button class="btn btn-primary order" onclick="printInvoice();"> Bilgi Fişi Yazdır</button>
+                                </div>
+                            </div>            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END PLACE PAGE CONTENT HERE -->
+    </section>
+
+
+</main>
+
+<!-- ***********************************  MODALS **********************************-->
+
+<!-- CHECK PRICE -->
+<div class="modal fade bd-example-modal-lg checkPrice" tabindex="-4" role="dialog"
+        aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myLargeModalLabel">ÜRÜN FİYAT GÖR</h5>
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="form-group col-md-12">
+                                    <label for="barcodeCheckPrice">Barkod</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" id="barcodeCheckPrice" class="form-control" placeholder="Barkod" aria-label="Barkod" aria-describedby="basic-addon1">
+                                        <button onclick="checkPrice();">scan</button>
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1"><i class="fa fa-barcode"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="table-responsive p-t-10">
+                                    <table class="table" id="checkPriceTable">
+                                        <thead>
+                                            <tr>
+                                                <th width="200px">Ürün</th>
+                                                <th width="200px">Fİyat</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody style="font-size: 30px;">
+    
+                                        </tbody>
+                                    </table>
+                                </div>    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    Kapat
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CHECK PRICE -->
+<div class="modal fade bd-example-modal-lg cardcash" tabindex="-6" role="dialog"
+        aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myLargeModalLabel">KART NAKİT</h5>
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for="name">NAKİT</label>
+                                        <div class="input-group mb-3">
+                                            <input type="text" id="cashPayment" class="form-control" placeholder="Nakit Ödenen" aria-label="Nakit Ödenen" aria-describedby="basic-addon1">
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="name">KART</label>
+                                        <div class="input-group mb-3">
+                                            <input type="text" id="cardPayment" class="form-control" placeholder="Kart Ödenen" aria-label="Kart Ödenen" aria-describedby="basic-addon1">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <button style="width: 100%;" onclick="checkBothPayment();" class="btn btn-success">Nakit/Kart Ödeme Al</button>
+                                    </div>    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    Kapat
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CALCULATE TAX -->
+<div class="modal fade bd-example-modal-lg taxCalc" tabindex="-3" role="dialog"
+        aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myLargeModalLabel">ÜRÜN GELİŞİ HESAPLAMA</h5>
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="form-group col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label>Birim Fiyatı</label>
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1"><i class="fa fa-money"></i></span>
+                                                </div>
+                                                <input type="number" id="birimHesap" class="form-control" aria-describedby="basic-addon1" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="name">İskonto Tutarı %</label>
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1"><i class="fa fa-percentage"></i></span>
+                                                </div>
+                                                <input type="number" id="iskontoHesap" class="form-control" aria-describedby="basic-addon1" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>Kategori</label>
+                                            <div class="input-group mb-3">
+                                                <select class="form-control form-control-lg" id="kdvHesap" required>
+                                                    <option value="1.08">Gıda</option>
+                                                    <option value="1.18">Alkol</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary" onclick="taxCalc();">HESAPLA</button>
+                                    <div id="taxCalcResult" style="text-align: right;">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    Kapat
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ORGANIZER FOR SHORTCUT BUTTONS -->
+<div class="modal fade bd-example-modal-lg organizer" tabindex="-5" role="dialog"
+        aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myLargeModalLabel"> KISAYOL BUTONLARINI DÜZENLE</h5>
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="col-md-12">
+                                    <button class="btn btn-primary" onclick="showSB(1);">Yeni Kısayol Butonu</button>
+                                    <button class="btn btn-primary" onclick="showSB(2);">Kısayol Butonlarını Düzenle</button>
+                                </div>                       
+                            </div>
+                            <div class="card-body showSB" style="margin-top: 30px;display: none;">
+                                <div class="col-md-12">
+                                    <label>Sayfa Numarası</label>
+                                    <select class="form-control form-control-lg" onchange="showSB(2);" id="pageTableSB">
+                                        <option value="1" selected>1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                    </select>
+                                </div>
+                                <div class="table-responsive p-t-10">
+                                    <table class="table" style="width:100%" id="SBTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Buton Sırası:</th>
+                                                <th>Barkod:</th>
+                                                <th>Buton Adı:</th>
+                                                <th>Sayfa No:</th>
+                                                <th>Eylem:</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+    
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="card-body addSB" style="margin-top: 30px;">
+                                <div class="form-group col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label for="name">Barkod</label>
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1"><i class="fa fa-barcode"></i></span>
+                                                </div>
+                                                <input type="number" id="barcodeSB" class="form-control" placeholder="Barkod" aria-label="Barkod" aria-describedby="basic-addon1">
+                                            </div>    
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>Sayfa Numarası</label>
+                                            <select class="form-control form-control-lg" id="pageSB">
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="name">Buton Sırası</label>
+                                            <div class="input-group mb-3">
+                                                <input type="text" id="orderSB" class="form-control" placeholder="Buton Sırası" aria-label="Buton Sırası" aria-describedby="basic-addon1">
+                                            </div>    
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="name">Buton Adı</label>
+                                            <div class="input-group mb-3">
+                                                <input type="text" id="nameSB" class="form-control" placeholder="Buton Adı" aria-label="Buton Adı" aria-describedby="basic-addon1">
+                                            </div>    
+                                        </div>
+                                        <div class="col-md-12" style="margin-top: 20px;">
+                                            <button class="btn btn-success" style="width: 100%;" onclick="addSB();">Yeni Buton Ekle</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    Kapat
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- PRODUCT DETAILS -->
+<div class="modal fade bd-example-modal-lg taxCalc" id="productOptionsModal" tabindex="-2" role="dialog">
+    <input type="hidden" id="productOptionsBarcode">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">İndirim/Zam Düzenleme</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-4">
+                                <button class="btn btn-success productOptions" onclick="discountType(0);">Ürüne % İndirim</button>
+                            </div>
+                            <div class="col-4">
+                                <button class="btn btn-success productOptions" onclick="discountType(1);">Ürüne TL İndirim</button>
+                            </div>
+                            <div class="col-4">
+                                <button class="btn btn-primary productOptions" onclick="discount(5);">Yapılan İndirimleri Sil</button>    
+                            </div>
+                            <div class="col-4">
+                                <button class="btn btn-danger productOptions" onclick="discountType(2);">Ürüne % Zam</button>
+                            </div>
+                            <div class="col-4">
+                                <button class="btn btn-danger productOptions" onclick="discountType(3);">Ürüne TL Zam</button>
+                            </div>
+                            <div class="col-4">
+                                <button class="btn btn-warning productOptions" onclick="discountType(4);">İkram</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12" id="productOptionsInput" style="margin-top: 40px;">
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- CHECK HOLD ORDERS -->
+<div class="modal fade bd-example-modal-lg" id="holdOrders" tabindex="-2" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myLargeModalLabel">ASKIDAKİ İŞLEMLER</h5>
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="table-responsive p-t-10" id="holdOrdersTable">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    Kapat
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ERROR MODAL -->
+
+<div class="modal fade" id="modalError" tabindex="-2" role="dialog" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog  modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+            <div class="modal-body">
+                <div class="px-3 pt-3 text-center">
+                    <div class="event-type error">
+                        <div class="event-indicator ">
+                           <i class="mdi mdi-close text-white" style="font-size: 60px"></i>
+                        </div>
+                    </div>
+                    <h3 class="pt-3">Hata!</h3>
+                    <p class="text-muted" id="errorFill">
+                        
+                    </p>
+                    <div>
+                        <a href="#" class="badge badge-danger">Tekrar Deneyiniz</a>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer ">
+                <a href="#" class="btn btn-primary" data-dismiss="modal" aria-label="Kapat">Kapat</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SUCCES MODAL -->
+<div class="modal fade bd-example-modal-sm successModal" tabindex="-2" role="dialog"
+        aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="px-3 pt-3 text-center">
+                    <div class="event-type success">
+                        <div class="event-indicator ">
+                            <i class="mdi mdi-check text-white" style="font-size: 60px"></i>
+                        </div>
+                    </div>
+                    <h3 class="pt-3">İşlemi Onaylayın!</h3>
+                    <p class="text-muted">
+                        Bu bildirimi onaylayarak devam edebilirsiniz.
+                    </p>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" onclick="location.reload();" data-dismiss="modal">
+                    Onayla
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="./assets/vendor/jquery/jquery.min.js"></script>
+<script src="./assets/vendor/jquery/jquery.min.js"></script>
+<script src="assets/vendor/jquery-ui/jquery-ui.min.js"></script>
+<script src="assets/vendor/popper/popper.js"></script>
+<script src="assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/vendor/select2/js/select2.full.min.js"></script>
+<script src="assets/vendor/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+<script src="assets/vendor/listjs/listjs.min.js"></script>
+<script src="assets/vendor/moment/moment.min.js"></script>
+<script src="assets/vendor/daterangepicker/daterangepicker.js"></script>
+<script src="assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+<script src="assets/vendor/bootstrap-notify/bootstrap-notify.min.js"></script>
+<script src="assets/js/atmos.js"></script>
+<script src="assets/js/fontawesome.min.js"></script>
+<!--page specific scripts for demo-->
+
+<script>
+    // config variables
+    var config = require("./src/config");
+    var db = config.db;
+    var Sortable = require('sortablejs');
+    var print = require('print-js');
+    products = [];
+    holdOrders = [];
+    var isDiscount = 0;
+
+
+    function printInvoice(){    
+    
+    var items = "";
+    
+    for (let i = 0; i < products.length; i++) {
+        const product = products[i];
+        items += `<tr>
+                    <td>`+ product.name +`</td>
+                    <td>`+ product.qty +`</td>    
+                    <td>₺`+ product.sellprice +`</td>        
+                </tr>`;
+    }
+
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+
+    today = mm + '/' + dd + '/' + yyyy;
+
+    var totalPriceRec = Number(document.getElementById("totalPrice").innerHTML); 
+    
+    receipt = `<div style="font-size: 10px;">                            
+        <p style="text-align: center;">
+            <span style="font-size: 30px;">BİLGİ FİŞİ</span><br>
+            <span style="font-size: 15px">MALİ DEĞERİ YOKTUR</span><br>
+        </p>
+        <hr>
+        <left>
+            <p>
+            Tarih: `+ today +`<br>
+            </p>
+        </left>
+        <hr>
+        <table width="100%" id="printerTable">
+            <thead style="text-align: left;">
+            <tr>
+                <th>Ürün</th>
+                <th>Adet</th>
+                <th>Birim Fiyat</th>
+            </tr>
+            </thead>
+            <tbody>
+                `+ items +`
+            <tr>
+                <td><h3>Toplam</h3></td>
+                <td><h3>:</h3></td>
+                <td>
+                    <h3>₺`+ totalPriceRec +`</h3>
+                </td>
+            </tr>
+            </tbody>
+            </table>
+            <br>
+            <hr>
+            <br>
+            <p style="text-align: center;">
+              <span>NOT: Bu Belge Bilgi Amaçlı Düzenlenmiş Olup Mali Değer Taşımamaktadır.</span>
+             </p>
+            </div>`;
+            
+            console.log(receipt);
+    printJS({ printable: receipt, type: 'raw-html' });
+
+    }
+    function holdCurOrder(){
+        var checker = document.getElementById("cartTable").rows.length;
+        console.log(checker);
+        if(checker == 1){  
+            $("#errorFill").empty();
+            $("#errorFill").append(
+                `Askıya alınacak ürün bulunamadı.`
+            );
+            $("#modalError").modal("show");
+        } else {
+            var totalPriceHold = Number(document.getElementById("totalPrice").innerHTML);
+            var totalAmountHold = Number(document.getElementById("totalPiece").innerHTML);
+            var reference = Date.now()
+            holdOrders.push({reference: reference, products: products, tprice: totalPriceHold, tpiece:totalAmountHold});
+            products = [];
+            getProducts();
+        }
+    }
+
+    function holdExistOrder(){
+        var checker = document.getElementById("cartTable").rows.length;
+        console.log(checker);
+        if(checker == 1){  
+            console.log("askıya alınacak ürün yok");
+        } else {
+            var totalPriceHold = Number(document.getElementById("totalPrice").innerHTML);
+            var totalAmountHold = Number(document.getElementById("totalPiece").innerHTML);
+            var reference = Date.now()
+            holdOrders.push({reference: reference, products: products, tprice: totalPriceHold, tpiece:totalAmountHold});
+            products = [];
+            getProducts();
+        }
+    }
+
+    function showHoldOrders(){
+        $("#holdOrders").modal("show"); 
+        $("#holdOrdersTable").empty();
+        var indexrow = -1;
+        for (let i = 0; i < holdOrders.length; i++) {
+            var holdOrder = holdOrders[i];
+            indexrow++;
+            var products = products;
+            $("#holdOrdersTable").append(
+                `<table class="table" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th style="font-weight: bolder;color: black;">` + holdOrder.reference + `</th>
+                            <th><button style="min-width:100%;" class="btn btn-primary" onclick='reviveOrder(`+ indexrow +", "+ holdOrder.reference + `);'><i class="fa fa-undo"></i> İşleme Al</button></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span style="font-weight:bolder">Toplam Tutar: </span>₺`+ holdOrder.tprice +`</td>
+                            <td>`+ holdOrder.tpiece +`<span style="font-weight:bolder"> Toplam Ürün</span></td>
+                        </tr>
+                    </tbody>
+                </table>`
+            );
+        }
+    }
+
+    function reviveOrder(index, reference){
+        console.log(index);
+
+        holdExistOrder();
+        for (let i = 0; i < holdOrders.length; i++) {
+            var holdOrder = holdOrders[i];
+            if(holdOrder.reference == reference){
+                products = holdOrder.products;
+            }
+        }
+        holdOrders.splice(index, 1);
+
+        $("#holdOrders").modal("hide");
+        getProducts();
+    }
+
+    function cancelOrder(){
+        if (products.length > 0) {
+            products = [];
+            getProducts();
+        }
+    }
+
+    function cancelProduct(index, qty, barcode){
+        if(qty == 1){
+            products.splice((index - 1), 1);
+            getProducts();
+        } else {
+            // loop through all products and check if product is already added
+            for (let i = 0; i < products.length; i++) {
+                const product = products[i];
+                // if product is added, increment quantity
+                if(product.barcode == barcode){
+                    exist = true;
+                    product.qty--;
+                    getProducts();
+                }
+            }
+        }
+    }
+
+    function addProduct(barcode){
+        console.log(barcode);
+        console.log($('#barcodeScanner').val());
+        localStorage.setItem("localBarcode", barcode);
+        console.log("this:" + document.activeElement.tabIndex);
+        var exist = false;
+
+        // loop through all products and check if product is already added
+        for (let i = 0; i < products.length; i++) {
+            const product = products[i];
+            // if product is added, increment quantity
+            if(product.barcode == barcode){
+                exist = true;
+                let sql = `SELECT products.id FROM products WHERE products.barcode = "`+ barcode + `";`;
+                db.get(sql, (error, rows, fields) => {
+                    if (error) {
+                        console.log(error.message);
+                    }
+                    if(rows){
+                        let sql2 = `SELECT SUM(products_info.stock) AS Pstock FROM products_info WHERE products_info.idp = `+ rows.id +``;
+                        db.all(sql2, (err, rows2) => {
+                            if(err){console.log(err);}
+                            var Pstock = 0;
+                            for (let i = 0; i < rows2.length; i++) {
+                                const row2 = rows2[i];
+                                Pstock += row2.Pstock;
+                            }
+                            console.log(product.qty, Pstock);
+                            if(product.qty < Pstock){
+                                product.qty++;
+                                totalPrice = product.sellprice + totalPrice;
+                                getProducts();
+                            } else {
+                                $("#errorFill").empty();
+                                $("#errorFill").append(
+                                    `Ürün Stok Sınırı Erişildi.`
+                                );
+                                $("#modalError").modal("show");
+                                }
+                        });
+                    }
+                });
+            }
+        }
+
+        // add product if not added already
+        if(!exist){
+            let sql = `SELECT * FROM products WHERE products.barcode = "`+ barcode + `";`;
+            console.log(sql);
+            db.get(sql, (error, rows, fields) => {
+                if (error) {
+                    console.log(error);
+                }
+                console.log(rows);
+                if(rows){
+                    let sql2 = `SELECT products_info.stock FROM products_info WHERE products_info.idp = `+ rows.id +``;
+                    console.log(sql2);
+                    db.all(sql2, (err, rows2) => {
+                        if(err){console.log(err);}
+                        if(rows2.length > 0){
+                            var id = rows["id"];
+                            var name = rows["name"];
+                            var sellprice = rows["sellprice"];
+                            totalPrice = sellprice;
+                            products.push({id: id, barcode: barcode, name: name, qty: 1, sellprice: sellprice, discount: {amount: 0, qty: 0}});
+                            getProducts();
+                        } else {
+                            $("#errorFill").empty();
+                            $("#errorFill").append(
+                                `Ürün Stokta Bulunmamaktadır.`
+                            );
+                            $("#modalError").modal("show");
+                        }
+                    });
+                }
+            });
+        }
+        document.getElementById("barcodeScanner").focus();
+    }
+
+    function getProducts(){
+        // delete stock from database if 0 on statrup application
+        let sql = 
+        `DELETE FROM products_info
+        WHERE products_info.stock = 0;`;
+        db.run(sql, [], (err) => {
+            if(err){console.log(err);}
+        });
+
+        var totalPiece = 0;
+        var totalPrice = 0;
+        var rowNum = -1;
+        $("#cartTable tbody").empty();
+        for (let i = 0; i < products.length; i++) {
+            rowNum++;
+            var product = products[i];
+            var discount = product.discount.amount * product.discount.qty;
+            $("#cartTable tbody").append(
+                `<tr>
+                    <td>`+ (rowNum + 1) +`</td>
+                    <td><button class="btn btn-primary" style="font-size: 15px;" data-toggle="modal" onclick="productOptionsModal(`+ product.barcode +`);">`+ product.name +`</button></td>
+                    <td>₺`+ product.sellprice +`</td>
+                    <td>` + product.qty + `</td>
+                    <td>₺` + ((product.qty * product.sellprice) + discount) + `</td>
+                    <td>
+                        <button class="btn btn-danger btn-xs" onclick="cancelProduct(`+ (rowNum + 1) + ", " + product.qty + ", " + product.barcode +`)"><i class="fa fa-times"></i></button>
+                    </td>
+                </tr>`); 
+            totalPiece += product.qty;
+            totalPrice += (product.sellprice * product.qty) + discount;
+        }
+
+        $("#totalPiece").html(totalPiece);
+        $("#totalPrice").html(totalPrice);
+    }
+
+    function discountType(type){
+        var barcode = $("#productOptionsBarcode").val();
+        for (let i = 0; i < products.length; i++) {
+            var product = products[i];
+            if(product.barcode == barcode){
+                var maxQty = product.qty;
+            }
+        }
+        /* 
+            0 = % indirim
+            1 = TL indirim
+            2 = % zam
+            3 = TL zam
+            4 = Ikram
+            5 = reset
+        */
+        switch (type) {
+            case 0:
+                var label = "Uygulanacak % İndirim";
+                var hide = " ";
+                var hideAll = " ";
+            break;
+            case 1:
+                var label = "Uygulanacak TL İndirim";
+                var hide = " ";
+                var hideAll = " ";
+            break;
+            case 2:
+                var label = "Uygulanacak % Zam";
+                var hide = " ";
+                var hideAll = " ";
+            break;
+            case 3:
+                var label = "Uygulanacak TL Zam";
+                var hide = " ";
+                var hideAll = " ";
+            break;
+            case 4:
+                var label = " ";
+                var hide = "style=\"display: none; \"";
+                var hideAll = " ";
+            break;
+            case 5:
+                var hideAll = "style=\"display: none; \"";
+            break;
+        }
+
+
+        var content = 
+            `<div class="row" `+ hideAll +`>
+                <div class="col-md-6" `+ hide +`>
+                    <label style="font-size:20px">`+ label +`</label>
+                    <div class="input-group mb-3">
+                        <input type="number" id="discountValue" class="form-control form-control-lg" aria-describedby="basic-addon1" required="">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label style="font-size:20px">Uygulanacak Ürün Adeti</label>
+                    <div class="input-group mb-3">
+                        <input type="number" id="discountQty" min="1" value="1" max="` + maxQty + `" class="form-control form-control-lg" aria-describedby="basic-addon1" required="" onkeydown="return false">
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="discount(` + type + `)">Uygula</button>`;
+
+        $("#productOptionsInput").html(content);
+    }
+
+    function discount(type){
+        var barcode = $("#productOptionsBarcode").val();
+        /* 
+            0 = % indirim
+            1 = TL indirim
+            2 = % zam
+            3 = TL zam
+            4 = Ikram
+            5 = reset
+        */
+        for (let i = 0; i < products.length; i++) {
+            var product = products[i];
+            if(product.barcode == barcode){
+                var price = product.sellprice;
+            }
+        }
+        var discountValue = Number($("#discountValue").val());
+        switch (type) {
+            case 0:
+                var discount = (price * (discountValue / 100)) * - 1;
+                isDiscount = 1;
+            break;
+            case 1:
+                var discount = discountValue * -1;
+                isDiscount = 1;
+            break;
+            case 2:
+                var discount = price * (discountValue / 100);
+                isDiscount = 1;
+            break;
+            case 3:
+                var discount = discountValue;
+                isDiscount = 1;
+            break;
+            case 4:
+                var discount = price * - 1;
+                isDiscount = 1;
+            break;
+            case 5:
+                var discount = 0;
+                isDiscount = 0;
+            break;
+        }
+
+        for (let i = 0; i < products.length; i++) {
+            var product = products[i];
+            if(product.barcode == barcode){
+                product.discount = {amount: discount, qty: Number($("#discountQty").val())};
+            }
+        }
+
+        getProducts();
+    }
+
+    function productOptionsModal(barcode){
+        $("#productOptionsModal").modal("show");
+        $("#productOptionsBarcode").val(barcode);
+
+    }
+
+
+    // CHECK PRICE
+    function checkPrice(){
+        var barcode2 = document.getElementById("barcodeCheckPrice").value;
+        if(barcode2 == ""){
+            $("#errorFill").empty();
+            $("#errorFill").append(
+                `Ürün Bulunmamaktadır.`
+            );
+            $("#modalError").modal("show");
+        } else {
+            let sql = `SELECT * FROM products WHERE products.barcode = ` + barcode2 + `; `;
+            db.all(sql, (err, rows) => {
+                if(err){console.log(err);}
+                $("#checkPriceTable tbody").empty();
+                if (rows.length == 0){
+                    $("#errorFill").empty();
+                    $("#errorFill").append(
+                        `Bu barkoda ait bir ürün bulunmamaktadır.`
+                    );
+                    $("#modalError").modal("show");
+                } else {
+                    for (let i = 0; i < rows.length; i++) {
+                    const row = rows[i];
+                    $("#checkPriceTable tbody").append(
+                        `<tr>
+                            <td>` + row.name + `</td>
+                            <td>` + row.sellprice + `</td>
+                        </tr>`);
+                    }
+                }
+            });
+        }
+    }
+
+    // TAX CALCULATOR
+    function taxCalc(){
+        var birim = document.getElementById("birimHesap").value;
+        var iskonto = document.getElementById("iskontoHesap").value;
+        var kdv = document.getElementById("kdvHesap").value;
+
+        var result = (birim - (birim * iskonto / 100)) * kdv ;
+
+        $("#taxCalcResult").empty();
+        $("#taxCalcResult").append(
+            `<h3 style="font-size: 60px;">₺ ` + result.toFixed(2) + `</h3>`);
+
+    }
+
+    // RE-ADD PRODUCT
+    function reAddProduct(){
+        var barcode = localStorage.getItem("localBarcode");
+        addProduct(barcode);
+    }
+
+
+    function checkBothPayment(){
+        var checkCard = Number(document.getElementById("cardPayment").value);
+        var checkCash = Number(document.getElementById("cashPayment").value);
+        var totalPriceEnd = Number(document.getElementById("totalPrice").innerHTML);
+
+        var checkTotal = checkCard + checkCash;
+
+        if(checkTotal == totalPriceEnd){
+            createOrder(3);
+        } else {
+            alert("Girilen Tutar ile Hesap Tutarı Uyuşmamaktadır");
+        }
+
+    }
+
+    function createOrder(paidCash){
+
+        var totalPriceEnd = Number(document.getElementById("totalPrice").innerHTML);
+
+        if(paidCash == 1){
+            var payment = "NAKİT";
+            var cardPaid = 0;
+            var cashPaid = totalPriceEnd;
+        }else if (paidCash == 2){
+            var payment = "KART";
+            var cardPaid = totalPriceEnd;
+            var cashPaid = 0;
+        } else {
+            var payment = "NAKİT/KART"
+            var cardPaid = Number(document.getElementById("cardPayment").value);
+            var cashPaid = Number(document.getElementById("cashPayment").value);
+        }
+
+        var checker = document.getElementById("cartTable").rows.length;
+        console.log(checker);
+        if(checker == 1){  
+            $("#errorFill").empty();
+            $("#errorFill").append(
+                `Ödeme alınacak ürün bulunamadı.`
+            );
+            $("#modalError").modal("show");
+        } else {
+        // add order to database
+        let sql = `INSERT INTO orders (date, payment, card, cash, discount, totalSell) VALUES ((date(CURRENT_DATE, 'localtime')),?, ?, ?, ?, ?);`;
+        db.run(sql, [payment, cardPaid, cashPaid, isDiscount, totalPriceEnd], function(err) {
+            if(err){console.log(err);}         
+            var ido = this.lastID;
+            for (let i = 0; i < products.length; i++) {
+                const product = products[i];
+                let sql2 = 
+                    `INSERT INTO orders_products (ido, idp, barcode, name, qty, sellprice, discount_amount, discount_qty) 
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?);`;
+                db.run(sql2, [ido, product.id, product.barcode, product.name, product.qty, product.sellprice, product.discount.amount, product.discount.qty], function(err) {
+                    if(err){console.log(err);}         
+                    var idop = this.lastID;
+                    let sql3 = 
+                        `SELECT products_info.id, products_info.stock, products_info.buyprice
+                        FROM products_info
+                        WHERE products_info.idp = ` + product.id + `
+                        AND products_info.stock > 0
+                        ORDER BY products_info.id ASC;`;
+                    db.all(sql3, (err, rows) => {
+                        if(err){console.log(err);}
+                        var sold = 0;
+                        var bought = product.qty;
+                        for (let i = 0; i < rows.length; i++) {
+                            const row = rows[i];
+                            // if the bought amount has not been fullfilled yet
+                            if(sold < bought){
+                                // the qty that still needs to be fullfilled
+                                var needed = bought - sold;
+                                // if the needed amount is available in stock
+                                if(needed < row.stock){
+                                    // the selling amount is equal to the needed amount
+                                    var selling = needed;
+                                }else{
+                                    // the stock will be added to the que
+                                    var selling = row.stock;
+                                }
+                                console.log(selling);
+                                if(selling > 0){
+                                    sold += selling;
+                                    var newStock = row.stock - selling;
+                                    let sql4 = 
+                                        `UPDATE products_info
+                                        SET stock = ` + newStock + `
+                                        WHERE products_info.id = ` + row.id + `;`;
+                                    db.run(sql4, function(err) {
+                                        if(err){console.log(err);}         
+                                    });
+                                    let sql5 = 
+                                        `INSERT INTO orders_sold (idop, qty, buyprice, date) 
+                                        VALUES ('` + idop + `', '` + selling + `', '` + row.buyprice + `', (date(CURRENT_DATE, 'localtime')));`;
+                                    db.run(sql5, function(err) {
+                                        if(err){console.log(err);}         
+                                    });
+                                }
+                            }
+                        }    
+                    });  
+                });
+            }
+            // reset products variable en refresh table
+            products = [];
+            getProducts();
+            $('.cardcash').modal('hide');
+            });
+            setTimeout(
+            function () {
+                isDiscount = 0;
+                ;}, 500);  
+        }
+    }
+
+    $(document).ready(function(){
+        getSB(1);
+        if (localStorage.getItem("userID") == 2) {
+            $("#header").load("header2.html");
+        } else {
+            $("#header").load("headermain.html");
+        }
+        // delete stock from database if 0 on statrup application
+        let sql = 
+            `DELETE FROM products_info
+            WHERE products_info.stock = 0;`;
+        db.run(sql, [], (err) => {
+            if(err){console.log(err);}
+        });
+
+        var input = document.getElementById("barcodeScanner");
+
+        // Execute a function when the user releases a key on the keyboard
+        input.addEventListener("keyup", function(event) {
+        // Number 13 is the "Enter" key on the keyboard
+        if (event.keyCode === 13) {
+            // Cancel the default action, if needed
+            event.preventDefault();
+            // Trigger the button element with a click
+            document.getElementById("barcodeScan").click();
+            document.getElementById("barcodeScanner").value = "";
+        }
+        });
+        setFocusBC();
+        const kbButtons = document.querySelectorAll('button')
+        .forEach(elem => {
+            elem.setAttribute('tabindex', '-1')
+        })
+
+    });
+
+    function setFocusBC(){
+        setTimeout(
+        function () {
+            var curIndex = document.activeElement.tabIndex;
+            if (curIndex == -1) {
+                document.getElementById("barcodeScanner").focus();
+            } else if (curIndex == -3){
+                document.getElementById("birimHesap").focus();
+            } else if (curIndex == -4){
+                document.getElementById("barcodeCheckPrice").focus();
+            } else if (curIndex == -5){
+                document.getElementById("barcodeSB").focus();
+            } else if (curIndex == -6){
+                document.getElementById("cashPayment").focus();
+            }
+            setFocusBC();
+            ;}, 1000);  
+    }
+
+    function addSB(){
+        var barcode = document.getElementById("barcodeSB").value;
+        var name = document.getElementById("nameSB").value;
+        var page = document.getElementById("pageSB").value;
+        var order = document.getElementById("orderSB").value;
+
+        if(barcode == "" || name == "" || page == "" || order == ""){
+            $("#errorFill").empty();
+            $("#errorFill").append(
+                `Gerekli alanları doldurduğunuzdan emin olun.`
+            );
+            $("#modalError").modal("show");
+        } else {
+            let sql1 = `SELECT products.barcode FROM products WHERE products.barcode = `+ barcode +`;`;
+            db.all(sql1, (err, rows) => {
+                if(err){console.log(err);}
+                console.log(rows.length);         
+                if(rows.length == 0){
+                    alert("Sistemde bu barkoda sahip bir ürün bulunmamaktadır.")
+                } else {
+                    let sql = `INSERT INTO shortcuts(row_order, barcode, name, page) VALUES(?, ?, ?, ?) ;`;
+                    db.run(sql, [order, barcode, name, page], (err) => {
+                        if(err){console.log(err);}
+                        document.getElementById("orderSB").value = "";         
+                        document.getElementById("barcodeSB").value = "";
+                        document.getElementById("nameSB").value = "";
+                        document.getElementById("pageSB").value = "";
+                    });
+                }
+            });
+        }
+    }
+
+    function showSB(type){
+        switch (type) {
+            case 1:
+                $(".addSB").show();
+                $(".showSB").hide();
+            break;
+            case 2:
+                $(".addSB").hide();
+                $(".showSB").show();
+                var page = document.getElementById("pageTableSB").value;
+                let sql = `SELECT shortcuts.row_order, shortcuts.barcode, shortcuts.name, shortcuts.page FROM shortcuts WHERE shortcuts.page = `+ page +`;`;
+                db.all(sql, (err, rows) => {
+                    if(err){console.log(err);}
+                    $("#SBTable tbody").empty();
+                    for (let i = 0; i < rows.length; i++) {
+                        const row = rows[i];
+                        $("#SBTable tbody").append(
+                            `<tr>
+                                <td>` + row.row_order + `</td>
+                                <td>` + row.barcode + `</td>
+                                <td>` + row.name + `</td>
+                                <td>` + row.page + `</td>
+                                <td>
+                                    <button type="button" onclick="deleteSB(` + row.barcode + ", " + row.page +`)" class="btn btn-danger" data-toggle="modal" data-target=".editStock">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>`);
+                    }    
+                });
+            break;
+        }
+    }
+
+    function deleteSB(barcode, page){
+        let sql = `DELETE FROM shortcuts WHERE shortcuts.barcode = `+ barcode +`;`;
+            db.run(sql, (err) => {
+                if(err){console.log(err);}
+                showSB(2);
+                getSB(page);         
+            });
+    }
+
+    function getSB(page){
+        let sql = `SELECT shortcuts.barcode, shortcuts.name, shortcuts.page FROM shortcuts WHERE shortcuts.page = `+ page +` ORDER BY shortcuts.row_order;`;
+                db.all(sql, (err, rows) => {
+                    if(err){console.log(err);}
+                    console.log("çalıştım")
+                    $("#SButtons").empty();
+                    for (let i = 0; i < rows.length; i++) {
+                        const row = rows[i];
+                        $("#SButtons").append(
+                            `<button class="btn btn-primary" onclick="addProduct(`+ row.barcode +`);"> `+ row.name +`</button>`);
+                    }    
+                });
+
+    }
+</script>
+
+</body>
+</html>

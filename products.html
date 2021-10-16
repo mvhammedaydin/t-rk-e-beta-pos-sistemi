@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" name="viewport">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>AKAS Automaterialen</title>
+    <link rel="icon" type="image/x-icon" href="assets/img/logo.png"/>
+    <link rel="icon" href="assets/img/logo.png" type="image/png" sizes="16x16">
+    <link rel="stylesheet" href="assets/vendor/pace/pace.css">
+    <script src="assets/vendor/pace/pace.min.js"></script>
+    <!--vendors-->
+    <link rel="stylesheet" type="text/css" href="assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker3.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendor/jquery-scrollbar/jquery.scrollbar.css">
+    <link rel="stylesheet" href="assets/vendor/select2/css/select2.min.css">
+    <link rel="stylesheet" href="assets/vendor/jquery-ui/jquery-ui.min.css">
+    <link rel="stylesheet" href="assets/vendor/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="assets/vendor/timepicker/bootstrap-timepicker.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Hind+Vadodara:400,500,600" rel="stylesheet">
+    <link rel="stylesheet" href="assets/fonts/jost/jost.css">
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+
+    <!--Material Icons-->
+    <link rel="stylesheet" type="text/css" href="assets/fonts/materialdesignicons/materialdesignicons.min.css">
+    <!--Bootstrap + atmos Admin CSS-->
+    <link rel="stylesheet" type="text/css" href="assets/css/atmos.css">
+    <!-- Additional library for page -->
+</head>
+<!--body with default sidebar pinned -->
+<body class="sidebar">
+<!--sidebar Begins-->
+<aside class="admin-sidebar" id="header">
+
+</aside>
+<!--sidebar Ends-->    
+        
+
+<main class="admin-main">
+    <section class="admin-content">
+        <div class="bg-dark">
+            <div class="container-fluid m-b-30">
+                <div class="row">
+                    <div class="col-12 text-white p-t-40 p-b-90">
+                        <h4 class="">Ürün Yönetimi</h4>
+                        <button class="btn btn-primary" onclick="location.href='addScreen.html'"><i style="margin-right: 15px;" class="fa fa-plus"></i> Yeni Nesne Ekle</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid pull-up">
+            <div class="row">
+                <div class="card col-md-12 m-b-30 ">
+                    <div class="row" style="padding: 0px 40px;">
+                        <div class="card-body col-md-3">
+                            <div>
+                                <div class=" form-group">
+                                    <label>Ana-Kategori</label>
+                                    <select class="form-control form-control-lg" id="categoryOpt">
+                                        <option value="0" selected="">Tümü</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body col-md-3">
+                            <div>
+                                <div class=" form-group">
+                                    <label>Alt-Kategori</label>
+                                    <select class="form-control form-control-lg" id="subcategoryOpt">
+                                        <option value="0" selected="">Tümü</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body col-md-3">
+                            <div>
+                                <div class=" form-group">
+                                    <label>Distribütör</label>
+                                    <select class="form-control form-control-lg" id="companyOpt">
+                                        <option value="0" selected="">Tümü</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body col-md-3">
+                            <div>
+                                <div class=" form-group">
+                                    <label>Marka</label>
+                                    <select class="form-control form-control-lg" id="merkOpt">
+                                        <option value="0" selected="">Tümü</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body col-md-6">
+                            <div>
+                                <input class="form-control" type="text" id="searcher" placeholder="Ürün Arama" onkeyup="getData();">
+                            </div>
+                        </div>
+                        <div class="card-body col-md-3">
+                            <div>
+                                <button style="min-width:100%" class="btn btn-warning" onclick="getData();">Uygula</button>
+                            </div>
+                        </div>
+                        <div class="card-body col-md-3">
+                            <div>
+                                <button style="min-width:100%" class="btn btn-danger" onclick="location.reload();">Filtreleri Temizle</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div id="pagination">
+                                <button class="btn btn-primary" id="page-prev" onclick="setPage(this.value);"><i class="fa fa-chevron-left"></i></button>
+                                <button class="btn btn-primary" id="page-cur">1</button>
+                                <button class="btn btn-primary" id="page-next" onclick="setPage(this.value);"><i class="fa fa-chevron-right"></i></button>
+                                <button class="btn btn-danger" onclick="refreshOrder();">Sıralamayı Sıfırla</button>
+                                <p style="float: right;">Toplam Ürün Sayısı: <span id="totalProductCount">0</span></p>
+                            </div>
+                            <div class="table-responsive p-t-10">
+                                <table class="table" style="width:100%" id="productsTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Barkod</th>
+                                            <th><button onclick="setOrder(this);" value="13" class="order-btn btn btn-primary">Distribütör <i style="margin-left: 15px;" class="fa"></i></button></th>
+                                            <th><button onclick="setOrder(this);" value="1" class="order-btn btn btn-primary">Marka <i style="margin-left: 15px;" class="fa"></i></button></th>
+                                            <th><button onclick="setOrder(this);" value="3" class="order-btn btn btn-primary">Ürün <i style="margin-left: 15px;" class="fa"></i></button></th>
+                                            <th><button onclick="setOrder(this);" value="5" class="order-btn btn btn-primary">Ana-Kategori <i style="margin-left: 15px;" class="fa"></i></button></th>
+                                            <th><button onclick="setOrder(this);" value="7" class="order-btn btn btn-primary">Alt-Kategori <i style="margin-left: 15px;" class="fa"></i></button></th>
+                                            <th><button onclick="setOrder(this);" value="9" class="order-btn btn btn-primary">Toplam Stok <i style="margin-left: 15px;" class="fa"></i></button></th>
+                                            <th><button onclick="setOrder(this);" value="11" class="order-btn btn btn-primary">Satış Fiyatı<i style="margin-left: 15px;" class="fa"></i></button></th>
+                                            <th>Eylemler</th>
+                                            <th>Stok Ekle</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                    <tfoot>
+
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+
+<!--***************************************** MODALS *******************-->
+
+<!-- EDIT PRODUCT -->
+<div class="modal fade bd-example-modal-lg edit" tabindex="-1" role="dialog"
+        aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myLargeModalLabel">ÜRÜN DÜZENLEME</h5>
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label> Ürün Adı</label>
+                                        <input type="text" class="form-control form-control-lg" id="productnameE" placeholder="Ürün Adı" required>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label> Barkod</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1"><i class="fa fa-barcode"></i></span>
+                                            </div>
+                                            <input type="text" id="barcodeE" class="form-control form-control-lg" placeholder="Barkod" aria-label="Barkod" aria-describedby="basic-addon1" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label> Distribütör</label>
+                                        <select class="form-control form-control-lg" id="companyOptE" required>
+                                            
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label> Marka</label>
+                                        <select class="form-control form-control-lg" id="merkOptE" required>
+    
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label> Ana-Kategori</label>
+                                        <select class="form-control form-control-lg" id="categoryOptE" required>
+    
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label> Alt-Kategori</label>
+                                        <select class="form-control form-control-lg" id="subcategoryOptE" required>
+    
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label> Satış Fiyatı</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">₺</span>
+                                            </div>
+                                            <input type="number" id="sellpriceE" class="form-control form-control-lg" placeholder="Satış Fiyatı" required>
+                                        </div>
+                                    </div>    
+                                </div>
+                                <div style="text-align: center;" id="editButton">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    Kapat
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- EDIT STOCK -->
+<div class="modal fade bd-example-modal-lg editStock" tabindex="-1" role="dialog"
+        aria-labelledby="myLargeModalLabel" style="z-index: 2000;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myLargeModalLabel">ÜRÜNE STOK EKLEYİN</h5>
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="form-group col-md-12">
+                                    <label for="name">Adet</label>
+                                    <div class="input-group mb-3">
+                                        <input type="number" class="form-control" placeholder="Adet" id="amountE" aria-describedby="basic-addon1">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="name">Alış Fiyatı</label>
+                                    <div class="input-group mb-3">
+                                        <input type="number" class="form-control" placeholder="Alış Fiyatı" id="getpriceE" aria-describedby="basic-addon1">
+                                    </div>
+                                </div>
+                                <div style="text-align: center;" id="editStockButton">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    Kapat
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ADD STOCK -->
+<div class="modal fade bd-example-modal-lg addStock" tabindex="-1" role="dialog"
+        aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myLargeModalLabel">ÜRÜNE STOK EKLEYİN</h5>
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="form-group col-md-12">
+                                    <label for="name">Adet</label>
+                                    <div class="input-group mb-3">
+                                        <input type="number" class="form-control" placeholder="Adet" id="amount" aria-describedby="basic-addon1">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="name">Alış Fiyatı</label>
+                                    <div class="input-group mb-3">
+                                        <input type="number" class="form-control" placeholder="Alış Fiyatı" id="getprice" aria-describedby="basic-addon1">
+                                    </div>
+                                </div>
+                                <div style="text-align: center;" id="appendStockButton">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    Kapat
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bd-example-modal-lg delete" tabindex="-1" role="dialog"
+        aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myLargeModalLabel">Ana Ürün Sil</h5>
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Kapat">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="alert alert-danger" role="alert" id="delProduct">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    Kapat
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bd-example-modal-lg deleteConfirm" tabindex="-1" role="dialog"
+        aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Kapat">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="alert alert-success" role="alert" id="delConfirm">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    Kapat
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade bd-example-modal-lg stock" tabindex="-1" role="dialog"
+        aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myLargeModalLabel">STOK TAKİP</h5>
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="table-responsive p-t-10">
+                                    <table class="table" style="width:100%" id="products_info">
+                                        <thead>
+                                            <tr>
+                                                <th>Adet</th>
+                                                <th>Alış Fiyatı</th>
+                                                <th>Eylemler</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody style="font-size: 20px;">
+    
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    Kapat
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SUCCES MODAL -->
+<div class="modal fade bd-example-modal-sm successModal" tabindex="-1" role="dialog"
+        aria-labelledby="myLargeModalLabel" style="z-index: 3000;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="px-3 pt-3 text-center">
+                    <div class="event-type success">
+                        <div class="event-indicator ">
+                            <i class="mdi mdi-check text-white" style="font-size: 60px"></i>
+                        </div>
+                    </div>
+                    <h3 class="pt-3">İşlemi Onaylayın!</h3>
+                    <p class="text-muted">
+                        Bu bildirimi onaylayarak devam edebilirsiniz.
+                    </p>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" onclick="location.reload();" data-dismiss="modal">
+                    Onayla
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="./assets/vendor/jquery/jquery.min.js"></script>
+<script src="./assets/vendor/jquery/jquery.min.js"></script>
+<script src="assets/vendor/jquery-ui/jquery-ui.min.js"></script>
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/vendor/select2/js/select2.full.min.js"></script>
+<script src="assets/vendor/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+<script src="assets/vendor/listjs/listjs.min.js"></script>
+<script src="assets/vendor/moment/moment.min.js"></script>
+<script src="assets/vendor/daterangepicker/daterangepicker.js"></script>
+<script src="assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+<script src="assets/vendor/bootstrap-notify/bootstrap-notify.min.js"></script>
+<script src="assets/js/fontawesome.min.js"></script>
+<script src="assets/js/searchbars.js"></script>
+<script src="assets/js/atmos.js"></script>
+<!-- <script src="assets/js/products_info.js"></script>
+<script src="assets/js/products_table.js"></script>
+<script src="assets/js/searchbars.js"></script> -->
+
+
+
+<!--page specific scripts for demo-->
+
+<script>
+    // config variables
+    var config = require("./src/config");
+    var db = config.db;
+
+    // preset localstorage
+    if (localStorage.getItem("adminOrder") === null) {
+        localStorage.setItem("adminOrder", 0);
+    }
+
+    if (localStorage.getItem("adminPage") === null) {
+        localStorage.setItem("adminPage", 0);
+    }
+
+    if (localStorage.getItem("adminView") === null) {
+        localStorage.setItem("adminView", 20);
+    }
+
+    $(document).ready(function(){
+        if (localStorage.getItem("userID") == 2) {
+            $("#header").load("header2.html");
+        } else {
+            $("#header").load("header.html");
+        }
+        getCat();
+        getSubCat();
+        getMerk();
+        getCompany();
+        getData();
+        getCatE();
+        getSubCatE();
+        getMerkE();
+        getCompanyE();
+        $(".order-btn").each(function(){
+            var orderValue = Number($(this).val());
+            if(orderValue == Number(localStorage.getItem("adminOrder"))){
+                $(this).children("i").addClass("fa-chevron-down");
+                $(this).val(orderValue + 1);
+            }else if(orderValue + 1 == Number(localStorage.getItem("adminOrder"))){
+                $(this).children("i").addClass("fa-chevron-up");
+            }
+        });
+        pagination();
+    });
+
+
+    function setOrder(el){
+        var value = Number($(el).val());
+
+        // reset all order buttons
+        $(".order-btn").each(function(){
+            var orderValue = Number($(this).val());
+            if(orderValue % 2 == 0 && orderValue != value){
+                $(this).val(orderValue - 1);
+            }
+        });
+        $(".order-btn i").removeClass("fa-chevron-down fa-chevron-up");
+
+        if(value % 2 == 0){
+            $(el).val(value - 1);
+            $(el).children("i").addClass("fa-chevron-up");
+        }else{
+            $(el).val(value + 1);
+            $(el).children("i").addClass("fa-chevron-down");
+        }
+        
+        localStorage.setItem("adminOrder", value);
+        getData();
+    }
+
+    function pagination(){
+        cat = document.getElementById("categoryOpt").value;
+        subcat = document.getElementById("subcategoryOpt").value;
+        company = document.getElementById("companyOpt").value;
+        merk = document.getElementById("merkOpt").value;
+
+        console.log(cat, subcat, company, merk);
+
+        searcher = document.getElementById("searcher").value;
+            var charMap = {
+                Ç: '_',
+                C: '_',
+                Ö: '_',
+                O: '_',
+                Ş: '_',
+                S: '_',
+                İ: '_',
+                I: '_',
+                Ü: '_',
+                U: '_',
+                Ğ: '_',
+                G: '_',
+                i: '_',
+                ı: '_',
+                ç: '_',
+                o: '_',
+                ö: '_',
+                ş: '_',
+                s: '_',
+                ü: '_',
+                u: '_',
+                ğ: '_',
+                c: '_',
+                g: '_',
+            };
+
+        searcher_array = searcher.split('');
+
+        for (var i = 0, len = searcher_array.length; i < len; i++) {
+            searcher_array[i] = charMap[searcher_array[i]] || searcher_array[i];
+        }
+
+        searcher = searcher_array.join('');
+
+        var clearStr = searcher.replace(/[çöşüğı]/gi, "");
+
+        $('#searcher').html(clearStr);
+
+        if(cat == 0){
+            catSql = " " ;
+        } else {
+            catSql = " AND products.category = \'"+ cat +"\'";
+        }
+
+        if(subcat == 0){
+            subcatSql = " " ;
+        } else {
+            subcatSql = " AND products.subcategory = \'"+ subcat +"\'";
+        }
+
+        if(company == 0){
+            companySql = " " ;
+        } else {
+            companySql = " AND products.company = \'"+ company +"\'";
+        }
+
+        if(merk == 0){
+            merkSql = " " ;
+        } else {
+            merkSql = " AND products.merk = \'"+ merk +"\'";
+        }
+
+        switch (Number(localStorage.getItem("adminOrder"))) {
+            case 1:
+                var orderSql = " ORDER BY products.merk ASC";
+            break;
+            case 2:
+                var orderSql = " ORDER BY products.merk DESC";
+            break;
+            case 3:
+                var orderSql = " ORDER BY products.name ASC";
+            break;
+            case 4:
+                var orderSql = " ORDER BY products.name DESC";
+            break;
+            case 5:
+                var orderSql = " ORDER BY products.category ASC";
+            break;
+            case 6:
+                var orderSql = " ORDER BY products.category DESC";
+            break;
+            case 7:
+                var orderSql = " ORDER BY products.subcategory ASC";
+            break;
+            case 8:
+                var orderSql = " ORDER BY products.subcategory DESC";
+            break;
+            case 9:
+                var orderSql = " ORDER BY products_info.stock ASC";
+            break;
+            case 10:
+                var orderSql = " ORDER BY products_info.stock DESC";
+            break;
+            case 11:
+                var orderSql = " ORDER BY products.sellprice ASC";
+            break;
+            case 12:
+                var orderSql = " ORDER BY products.sellprice DESC";
+            break;
+            case 13:
+                var orderSql = " ORDER BY products.company ASC";
+            break;
+            case 14:
+                var orderSql = " ORDER BY products.company DESC";
+            break;
+            default:
+                var orderSql = " ORDER BY products.id DESC";
+            break;
+        }
+
+        var offset = Number(localStorage.getItem("adminView")) * Number(localStorage.getItem("adminPage"));
+
+        let sql = `SELECT COUNT(products.id) AS numRows 
+                FROM products
+                WHERE products.view = 1`+ merkSql + companySql + subcatSql + catSql + `
+                AND (products.name LIKE '%`+ searcher +`%' OR products.barcode LIKE '%`+ searcher +`%');`;
+        db.get(sql, [], (err, row) => {
+            if (err) {console.log(err);}
+            var numRows = row["numRows"];
+            var pagesCount = Math.ceil(numRows / localStorage.getItem("adminView"));
+            $("#totalProductCount").html(numRows);
+        });
+        $("#page-cur").html(Number(localStorage.getItem("adminPage")) +1);
+        $("#page-next").val(Number(localStorage.getItem("adminPage")) +1);
+        $("#page-prev").val(Number(localStorage.getItem("adminPage")) -1);
+    }
+
+    function setPage(p){
+        if(p >= 0){
+            localStorage.setItem("adminPage", p);
+            $("#page-cur").html(Number(localStorage.getItem("adminPage")) +1);
+            $("#page-next").val(Number(localStorage.getItem("adminPage")) +1);
+            $("#page-prev").val(Number(localStorage.getItem("adminPage")) -1);
+            getData();
+        }
+    }
+
+    function setView(v){
+        localStorage.setItem("adminView", v);
+        localStorage.setItem("adminPage", 0);
+    }
+    
+    function getData(){
+        pagination();
+        cat = document.getElementById("categoryOpt").value;
+        subcat = document.getElementById("subcategoryOpt").value;
+        company = document.getElementById("companyOpt").value;
+        merk = document.getElementById("merkOpt").value;
+
+        console.log(cat, subcat, company, merk);
+
+        searcher = document.getElementById("searcher").value;
+            var charMap = {
+                Ç: '_',
+                C: '_',
+                Ö: '_',
+                O: '_',
+                Ş: '_',
+                S: '_',
+                İ: '_',
+                I: '_',
+                Ü: '_',
+                U: '_',
+                Ğ: '_',
+                G: '_',
+                i: '_',
+                ı: '_',
+                ç: '_',
+                o: '_',
+                ö: '_',
+                ş: '_',
+                s: '_',
+                ü: '_',
+                u: '_',
+                ğ: '_',
+                c: '_',
+                g: '_',
+            };
+
+        searcher_array = searcher.split('');
+
+        for (var i = 0, len = searcher_array.length; i < len; i++) {
+            searcher_array[i] = charMap[searcher_array[i]] || searcher_array[i];
+        }
+
+        searcher = searcher_array.join('');
+
+        var clearStr = searcher.replace(/[çöşüğı]/gi, "");
+
+        $('#searcher').html(clearStr);
+
+        if(cat == 0){
+            catSql = " " ;
+        } else {
+            catSql = " AND products.category = \'"+ cat +"\'";
+        }
+
+        if(subcat == 0){
+            subcatSql = " " ;
+        } else {
+            subcatSql = " AND products.subcategory = \'"+ subcat +"\'";
+        }
+
+        if(company == 0){
+            companySql = " " ;
+        } else {
+            companySql = " AND products.company = \'"+ company +"\'";
+        }
+
+        if(merk == 0){
+            merkSql = " " ;
+        } else {
+            merkSql = " AND products.merk = \'"+ merk +"\'";
+        }
+
+        switch (Number(localStorage.getItem("adminOrder"))) {
+            case 1:
+                var orderSql = " ORDER BY products.merk ASC";
+            break;
+            case 2:
+                var orderSql = " ORDER BY products.merk DESC";
+            break;
+            case 3:
+                var orderSql = " ORDER BY products.name ASC";
+            break;
+            case 4:
+                var orderSql = " ORDER BY products.name DESC";
+            break;
+            case 5:
+                var orderSql = " ORDER BY products.category ASC";
+            break;
+            case 6:
+                var orderSql = " ORDER BY products.category DESC";
+            break;
+            case 7:
+                var orderSql = " ORDER BY products.subcategory ASC";
+            break;
+            case 8:
+                var orderSql = " ORDER BY products.subcategory DESC";
+            break;
+            case 9:
+                var orderSql = " ORDER BY stock ASC";
+            break;
+            case 10:
+                var orderSql = " ORDER BY stock DESC";
+            break;
+            case 11:
+                var orderSql = " ORDER BY products.sellprice ASC";
+            break;
+            case 12:
+                var orderSql = " ORDER BY products.sellprice DESC";
+            break;
+            case 13:
+                var orderSql = " ORDER BY products.company ASC";
+            break;
+            case 14:
+                var orderSql = " ORDER BY products.company DESC";
+            break;
+            default:
+                var orderSql = " ORDER BY products.id DESC";
+            break;
+        }
+
+        var offset = Number(localStorage.getItem("adminView")) * Number(localStorage.getItem("adminPage"));
+
+        let sql2 = 
+            `SELECT products.id, products.barcode, products.company, products.merk, products.name, products.category, products.subcategory, products.sellprice, 
+            CASE WHEN products_info.idp IS NOT NULL THEN SUM(products_info.stock) ELSE 0 END AS stock
+            FROM products
+            LEFT JOIN products_info
+            ON products.id = products_info.idp
+            WHERE products.view = 1`+ merkSql + companySql + subcatSql + catSql + `
+            AND (products.name LIKE '%`+ searcher +`%' OR products.barcode LIKE '%`+ searcher +`%')
+            GROUP BY products.id;`;
+        db.all(sql2, (err, rows2) => {
+            if(err){console.log(err);}
+            $("#productsTable tfoot").empty();
+            var totalSP = 0;
+            var totalSTOCK = 0;
+            for (let i = 0; i < rows2.length; i++) {
+                const row2 = rows2[i];
+                var totalSPAdder = (row2.stock * row2.sellprice);
+                totalSP += totalSPAdder;
+                totalSTOCK += row2.stock;
+            }
+            $("#productsTable tfoot").append(
+                    `<tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>Toplam:</td>
+                        <td>`+ totalSTOCK +`</td>
+                        <td>`+ totalSP +`</td>
+                        <td></td>
+                        <td></td>
+                    </tr>`);
+        });
+
+        let sql = 
+            `SELECT products.id, products.barcode, products.company, products.merk, products.name, products.category, products.subcategory, products.sellprice, 
+            CASE WHEN products_info.idp IS NOT NULL THEN SUM(products_info.stock) ELSE 0 END AS stock
+            FROM products
+            LEFT JOIN products_info
+            ON products.id = products_info.idp
+            WHERE products.view = 1`+ merkSql + companySql + subcatSql + catSql + `
+            AND (products.name LIKE '%`+ searcher +`%' OR products.barcode LIKE '%`+ searcher +`%')
+            GROUP BY products.id
+            ` + orderSql + ` LIMIT ` + Number(localStorage.getItem("adminView")) + ` OFFSET ` + offset + `;`;
+        db.all(sql, (err, rows) => {
+            if(err){console.log(err);}
+            $("#productsTable tbody").empty();
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                $("#productsTable tbody").append(
+                    `<tr>
+                        <td>` + row.barcode + `</td>
+                        <td>` + row.company + `</td>
+                        <td>` + row.merk + `</td>
+                        <td>` + row.name + `</td>
+                        <td>` + row.category + `</td>
+                        <td>` + row.subcategory + `</td>
+                        <td>` + row.stock + `</td>
+                        <td>` + row.sellprice + `</td>
+                        <td>
+                            <button type="button" onclick="getInfo(` + row.id + `)" class="btn btn-primary" data-toggle="modal" data-target=".stock">
+                                <i class="fa fa-stack-overflow"></i>
+                            </button>
+                            <button type="button" onclick="prepareEditProduct(` + row.id + `)" class="btn btn-warning" data-toggle="modal" data-target=".edit">
+                                <i class="fa fa-pen"></i>
+                            </button>
+                            <button type="button" onclick="delProduct(` + row.id + `)" class="btn btn-danger" data-toggle="modal" data-target=".delete">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </td>
+                        <td><button class="btn btn-warning" onclick="prepareStockAdd(` + row.id + `)" data-toggle="modal" data-target=".addStock"">Stok Ekle</button></td>
+                    </tr>`);
+            }
+        });
+    }
+
+    // ******************** PRODUCT INFO *********************** //
+    // PREPARE STOCK ADD
+    function prepareStockAdd(id){
+        $("#appendStockButton").empty();
+        $("#appendStockButton").append(
+                `<button class="btn btn-lg btn-primary" onclick="addStocktoProduct(`+ id +`);" >ÜRÜNE STOK EKLE</button>`);
+    }
+
+    function prepareEditStock(id){
+        let sql = `SELECT * FROM products_info WHERE products_info.id = `+ id +` ;`;
+        db.all(sql, (err, rows) => {
+            if(err){console.log(err);}
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                let element10 = document.getElementById("amountE");
+                element10.value = row.stock;
+
+                let element20 = document.getElementById("getpriceE");
+                element20.value = row.buyprice;
+
+                document.getElementById('amountE').value= row.stock;
+                document.getElementById('getpriceE').value= row.buyprice;
+
+                $("#editStockButton").empty();
+                $("#editStockButton").append(
+                    `<button class="btn btn-lg btn-primary" onclick="editStock(`+ row.id +`);"> Stok Düzenle</button>`);
+            }    
+        });    
+    }
+
+    function editStock(id){
+        var amount = document.getElementById("amountE").value;
+        var getprice = document.getElementById("getpriceE").value;
+
+        let sql = `UPDATE products_info SET stock = ?, buyprice = ? WHERE products_info.id = `+ id +`;`;
+        db.run(sql, [amount, getprice], (err) => {
+            if(err){console.log(err);}  
+            $('.successModal').modal('show');       
+        });
+    }
+
+    function prepareEditProduct(id){
+        let sql = `SELECT * FROM products WHERE products.id = `+ id +` ;`;
+        db.all(sql, (err, rows) => {
+            if(err){console.log(err);}
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                let element1 = document.getElementById("categoryOptE");
+                element1.value = row.category;
+
+                let element2 = document.getElementById("subcategoryOptE");
+                element2.value = row.subcategory;
+
+                let element3 = document.getElementById("companyOptE");
+                element3.value = row.company;
+
+                let element4 = document.getElementById("merkOptE");
+                element4.value = row.merk;
+
+                document.getElementById('productnameE').value= row.name;
+                document.getElementById('barcodeE').value= row.barcode;
+                document.getElementById('sellpriceE').value= row.sellprice;
+                $("#editButton").empty();
+                $("#editButton").append(
+                    `<button class="btn btn-lg btn-primary" onclick="editProduct(`+ row.id +`);"> Ürünü Düzenle</button>`);
+            }    
+        });    
+    }
+
+    function editProduct(id){
+        var name = document.getElementById("productnameE").value;
+        var barcode = document.getElementById("barcodeE").value;
+        var merk = document.getElementById("merkOptE").value;
+        var company = document.getElementById("companyOptE").value;
+        var category = document.getElementById("categoryOptE").value;
+        var subcategory = document.getElementById("subcategoryOptE").value;
+        var sellprice = document.getElementById("sellpriceE").value;
+
+        let sql = `UPDATE products SET name = ?, barcode = ?, company = ?, merk = ?, category = ?, subcategory = ?, sellprice = ?, view = ? WHERE products.id = `+ id +`;`;
+        db.run(sql, [name, barcode, company, merk, category, subcategory, sellprice, 1], (err) => {
+            if(err){console.log(err);}  
+            $('.successModal').modal('show');       
+        });
+    }
+
+    function addStocktoProduct(id){
+        var amount = document.getElementById("amount").value;
+        var getprice = document.getElementById("getprice").value;
+        
+        let sql = `INSERT INTO products_info(idp, stock, buyprice) VALUES(?, ?, ?) ;`;
+        db.run(sql, [id, amount, getprice], (err) => {
+            if(err){console.log(err);}         
+            $('.addStock').modal('hide');
+            document.getElementById('amount').value = '';
+            document.getElementById('getprice').value = '';
+            getData();       
+        });
+    }
+    
+    function getInfo(id){
+        // config variables
+        let sql = `SELECT * FROM products_info WHERE products_info.idp = `+ id +` ORDER BY products_info.id ASC`;
+        db.all(sql, (err, rows) => {
+        if(err){console.log(err);}         
+        $("#products_info tbody").empty();            
+        for (let i = 0; i < rows.length; i++) {
+            const row = rows[i];
+            $("#products_info tbody").append(
+                `<tr>
+                    <td>` + row.stock + `</td>
+                    <td>₺` + row.buyprice + `</td>
+                    <td>
+                        <button type="button" onclick="prepareEditStock(` + row.id + `)" class="btn btn-warning" data-toggle="modal" data-target=".editStock">
+                            <i class="fa fa-pen"></i>
+                        </button>
+                    </td>
+                </tr>`);
+        }
+    });    
+    }
+
+    // ******************** DELETE PRODUCT *********************** //
+
+    function delProduct(id){
+        // config variables
+        let sql = `SELECT products.name, products.id FROM products WHERE products.id = `+ id + `;`;
+        db.all(sql, (err, rows) => {
+        if(err){console.log(err);}
+        $("#delProduct").empty();         
+        for (let i = 0; i < rows.length; i++) {
+            const row = rows[i];
+            $("#delProduct").append(
+                `<h4 class="alert-heading">Dikkat! Bu Ürünü: `+ row.name +` silmek üzeresiniz!</h4>
+                <button onclick="sureDelProduct(`+ row.id +`)" class="btn btn-danger" data-toggle="modal" data-target=".deleteConfirm">
+                    <i class="fa fa-trash"></i> Ürünü Sil
+                </button>`);
+        }
+    });    
+    }
+
+    function sureDelProduct(id){
+        // config variables
+        let sql = `DELETE FROM products WHERE products.id = `+ id + ``;
+        db.run(sql, [], (err, rows) => {
+        if (err) {
+            throw err;
+        }            
+        location.reload(); 
+    });    
+    }
+
+    function refreshOrder(){
+        localStorage.clear();
+        location.reload();
+    }
+
+    // GET CATEGORY
+    function getCat(){
+        let sql = `SELECT categories.name FROM categories ORDER BY categories.name ASC`;
+        db.all(sql, (err, rows) => {
+            if(err){console.log(err);}
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                $("#categoryOpt").append(
+                    `<option value="`+ row.name +`">`+ row.name +`</option>`);        
+            }
+        });
+    }
+
+    // GET SUBCATEGORY
+    function getSubCat(){
+        let sql = `SELECT subcategories.name FROM subcategories ORDER BY subcategories.name ASC`;
+        db.all(sql, (err, rows) => {
+            if(err){console.log(err);}
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                $("#subcategoryOpt").append(
+                    `<option value="`+ row.name +`">`+ row.name +`</option>`);        
+            }
+        });
+    }
+
+    // GET COMPANY
+    function getCompany(){
+        let sql = `SELECT company.name FROM company ORDER BY company.name ASC`;
+        db.all(sql, (err, rows) => {
+            if(err){console.log(err);}
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                $("#companyOpt").append(
+                    `<option value="`+ row.name +`">`+ row.name +`</option>`);        
+            }
+        });
+    }
+
+    // GET MERK
+    function getMerk(){
+        let sql = `SELECT merk.name FROM merk ORDER BY merk.name ASC`;
+        db.all(sql, (err, rows) => {
+            if(err){console.log(err);}
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                $("#merkOpt").append(
+                    `<option value="`+ row.name +`">`+ row.name +`</option>`);        
+            }
+        });
+    }
+
+    // GET CATEGORY EDIT
+    function getCatE(){
+        let sql = `SELECT categories.name FROM categories ORDER BY categories.name ASC`;
+        db.all(sql, (err, rows) => {
+            if(err){console.log(err);}
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                $("#categoryOptE").append(
+                    `<option value="`+ row.name +`">`+ row.name +`</option>`);        
+            }
+        });
+    }
+
+    // GET SUBCATEGORY EDIT
+    function getSubCatE(){
+        let sql = `SELECT subcategories.name FROM subcategories ORDER BY subcategories.name ASC`;
+        db.all(sql, (err, rows) => {
+            if(err){console.log(err);}
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                $("#subcategoryOptE").append(
+                    `<option value="`+ row.name +`">`+ row.name +`</option>`);        
+            }
+        });
+    }
+
+    // GET COMPANY EDIT
+    function getCompanyE(){
+        let sql = `SELECT company.name FROM company ORDER BY company.name ASC`;
+        db.all(sql, (err, rows) => {
+            if(err){console.log(err);}
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                $("#companyOptE").append(
+                    `<option value="`+ row.name +`">`+ row.name +`</option>`);        
+            }
+        });
+    }
+
+    // GET MERK EDIT
+    function getMerkE(){
+        let sql = `SELECT merk.name FROM merk ORDER BY merk.name ASC`;
+        db.all(sql, (err, rows) => {
+            if(err){console.log(err);}
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                $("#merkOptE").append(
+                    `<option value="`+ row.name +`">`+ row.name +`</option>`);        
+            }
+        });
+    }
+        
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" name="viewport">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>AKAS Automaterialen</title>
+    <link rel="icon" type="image/x-icon" href="assets/img/logo.png"/>
+    <link rel="icon" href="assets/img/logo.png" type="image/png" sizes="16x16">
+    <link rel="stylesheet" href="assets/vendor/pace/pace.css">
+    <script src="assets/vendor/pace/pace.min.js"></script>
+    <!--vendors-->
+    <link rel="stylesheet" type="text/css" href="assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker3.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendor/jquery-scrollbar/jquery.scrollbar.css">
+    <link rel="stylesheet" href="assets/vendor/select2/css/select2.min.css">
+    <link rel="stylesheet" href="assets/vendor/jquery-ui/jquery-ui.min.css">
+    <link rel="stylesheet" href="assets/vendor/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="assets/vendor/timepicker/bootstrap-timepicker.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Hind+Vadodara:400,500,600" rel="stylesheet">
+    <link rel="stylesheet" href="assets/fonts/jost/jost.css">
+    <!--Material Icons-->
+    <link rel="stylesheet" type="text/css" href="assets/fonts/materialdesignicons/materialdesignicons.min.css">
+    <!--Bootstrap + atmos Admin CSS-->
+    <link rel="stylesheet" type="text/css" href="assets/css/atmos.css">
+    <!-- Additional library for page -->
+    <style>
+    .funcButtons button{
+        width: 300px;
+        height: 100px;
+        font-size: 20px;
+        margin-left: 10px;
+    }
+
+    .funcButtons .cancel{
+        background-color: #f2545b;
+        border-color: #f2545b;
+        width: 300px;
+        height: 100px;
+        font-size: 20px;
+        margin-left: 10px;
+    }
+
+    .funcButtons .cancel:hover {
+        background-color: #c91821;
+        border-color: #f2545b;
+    }
+
+    .funcButtons .hold{
+        background-color: orange;
+        border-color: orange;
+        width: 300px;
+        height: 100px;
+        font-size: 20px;
+        margin-left: 10px;
+    }
+
+    .funcButtons .hold:hover {
+        background-color: rgb(184, 121, 6);
+        border-color: orange;
+    }
+
+    .funcButtons .order{
+        background-color: #0c9;
+        border-color: #0c9;
+        width: 300px;
+        height: 100px;
+        font-size: 20px;
+        margin-left: 10px;
+    }
+
+    .funcButtons .order:hover {
+        background-color: rgb(2, 143, 108);
+        border-color: #0c9;
+    }
+
+    #optCard {
+        background-color: #28304e;
+    }
+
+    #optCard label{
+        color: #fff;
+    }
+
+</style>
+
+
+    </style>
+</head>
+<!--body with default sidebar pinned -->
+<body class="sidebar">
+<!--sidebar Begins-->
+<aside class="admin-sidebar" id="header">
+
+</aside>
+<!--sidebar Ends-->
+    
+
+<main class="admin-main">
+
+    <section class="admin-content">
+        <div class="bg-dark">
+            <div class="container-fluid m-b-30">
+                <div class="row">
+                    <a class="btn btn-primary" style="margin: 30px 30px;" href="products.html"><i class="fa fa-arrow-left"></i> Stok Yönetimine Geri Dön</a>
+                    <div class="col-12 text-white p-t-40 p-b-90 funcButtons">
+                        <h4 style="margin-left: 20px;;">Yeni Nesne Ekle</h4>
+                        <button class="btn btn-primary step hold" data-step="1" ><i style="margin-right: 15px;" class="fa fa-plus"></i> Yeni Ana-Kategori Ekle</button>
+                        <button class="btn btn-success step order" data-step="2" ><i style="margin-right: 15px;" class="fa fa-plus"></i> Yeni Alt-Kategori Ekle</button>
+                        <button class="btn btn-primary step cancel" data-step="5" ><i style="margin-right: 15px;" class="fa fa-plus"></i> Yeni Distribütör Ekle</button>
+                        <button class="btn btn-primary step cancel" data-step="3" ><i style="margin-right: 15px;" class="fa fa-plus"></i> Yeni Marka Ekle</button>
+                        <button class="btn btn-success step" data-step="4" ><i style="margin-right: 15px;" class="fa fa-plus"></i> Yeni Ürün Ekle</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card" id="optCard">
+
+                        <div class="card-body step-text col-md-4" id="step-text-1" style="display:none;">
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <input type="text" class="form-control form-control-lg" id="catName" placeholder="Ana Kategori" required>
+                                </div>
+                            </div>
+                            <div style="text-align: center;">
+                                <button class="btn btn-lg btn-primary" onclick="addCat();"> Yeni Ana Kategori Ekle</button>           
+                            </div>
+                        </div>
+
+                        <div class="card-body step-text col-md-4" id="step-text-2" style="display:none;">
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <input type="text" class="form-control form-control-lg" id="subCatName" placeholder="Alt Kategori" required>
+                                </div>
+                            </div>
+                            <div style="text-align: center;">
+                                <button class="btn btn-lg btn-primary" onclick="addSubCat();"> Yeni Alt Kategori Ekle</button>           
+                            </div>
+                        </div>
+
+                        <div class="card-body step-text col-md-4" id="step-text-5" style="display:none;">
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <input type="text" class="form-control form-control-lg" id="companyName" placeholder="Distribütör" required>
+                                </div>
+                            </div>
+                            <div style="text-align: center;">
+                                <button class="btn btn-lg btn-primary" onclick="addCompany();"> Yeni Distribütör Ekle</button>           
+                            </div>
+                        </div>
+
+                        <div class="card-body step-text col-md-4" id="step-text-3" style="display:none;">
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <input type="text" class="form-control form-control-lg" id="merkName" placeholder="Marka" required>
+                                </div>
+                            </div>
+                            <div style="text-align: center;">
+                                <button class="btn btn-lg btn-primary" onclick="addMerk();"> Yeni Marka Ekle</button>           
+                            </div>
+                        </div>
+
+                        <div class="card-body step-text" id="step-text-4" style="display:none;">
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label> Ürün Adı Giriniz</label>
+                                    <input type="text" class="form-control form-control-lg" id="productname" placeholder="Ürün Adı" required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label> Barkod Giriniz</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1"><i class="fa fa-barcode"></i></span>
+                                        </div>
+                                        <input type="text" id="barcode" class="form-control form-control-lg" placeholder="Barkod" aria-label="Barkod" aria-describedby="basic-addon1" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label> Distribütör Seçiniz</label>
+                                    <select class="form-control form-control-lg" id="companyOpt" required>
+                                        
+                                    </select>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label> Marka Seçiniz</label>
+                                    <select class="form-control form-control-lg" id="merkOpt" required>
+
+                                    </select>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label> Ana-Kategori Seçiniz</label>
+                                    <select class="form-control form-control-lg" id="categoryOpt" required>
+
+                                    </select>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label> Alt-Kategori Seçiniz</label>
+                                    <select class="form-control form-control-lg" id="subcategoryOpt" required>
+
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label> Satış Fiyatı Giriniz</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1">₺</span>
+                                        </div>
+                                        <input type="number" id="sellprice" class="form-control form-control-lg" placeholder="Satış Fiyatı" required>
+                                    </div>
+                                </div>    
+                            </div>
+                            <div style="text-align: center;">
+                                <button class="btn btn-lg btn-primary" onclick="addProduct();"> Yeni Ürünü Ekle</button>           
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- SUCCES MODAL -->
+<div class="modal fade bd-example-modal-sm successModal" tabindex="-1" role="dialog"
+        aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="px-3 pt-3 text-center">
+                    <div class="event-type success">
+                        <div class="event-indicator ">
+                            <i class="mdi mdi-check text-white" style="font-size: 60px"></i>
+                        </div>
+                    </div>
+                    <h3 class="pt-3">İşlemi Onaylayın!</h3>
+                    <p class="text-muted">
+                        Bu bildirimi onaylayarak devam edebilirsiniz.
+                    </p>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" onclick="reloadPage();" data-dismiss="modal">
+                    Onayla
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="./assets/vendor/jquery/jquery.min.js"></script>
+<script src="./assets/vendor/jquery/jquery.min.js"></script>
+<script src="assets/vendor/jquery-ui/jquery-ui.min.js"></script>
+<script src="assets/vendor/popper/popper.js"></script>
+<script src="assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/vendor/select2/js/select2.full.min.js"></script>
+<script src="assets/vendor/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+<script src="assets/vendor/listjs/listjs.min.js"></script>
+<script src="assets/vendor/moment/moment.min.js"></script>
+<script src="assets/vendor/daterangepicker/daterangepicker.js"></script>
+<script src="assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+<script src="assets/vendor/bootstrap-notify/bootstrap-notify.min.js"></script>
+<script src="assets/js/fontawesome.min.js"></script>
+<script src="assets/js/atmos.js"></script>
+<!--page specific scripts for demo-->
+
+<script>
+    // config variables
+    var config = require("./src/config");
+    var db = config.db;
+
+    $(document).ready(function(){
+        $("#header").load("header.html"); 
+        getCat();
+        getSubCat();
+        getMerk();
+        getCompany();
+    });
+
+
+    // GET CATEGORY
+    function getCat(){
+        let sql = `SELECT categories.name FROM categories ORDER BY categories.name ASC`;
+        db.all(sql, (err, rows) => {
+            if(err){console.log(err);}
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                $("#categoryOpt").append(
+                    `<option value="`+ row.name +`">`+ row.name +`</option>`);        
+            }
+        });
+    }
+
+    // GET SUBCATEGORY
+    function getSubCat(){
+        let sql = `SELECT subcategories.name FROM subcategories ORDER BY subcategories.name ASC`;
+        db.all(sql, (err, rows) => {
+            if(err){console.log(err);}
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                $("#subcategoryOpt").append(
+                    `<option value="`+ row.name +`">`+ row.name +`</option>`);        
+            }
+        });
+    }
+
+    // GET COMPANY
+    function getCompany(){
+        let sql = `SELECT company.name FROM company ORDER BY company.name ASC`;
+        db.all(sql, (err, rows) => {
+            if(err){console.log(err);}
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                $("#companyOpt").append(
+                    `<option value="`+ row.name +`">`+ row.name +`</option>`);        
+            }
+        });
+    }
+
+    // GET MERK
+    function getMerk(){
+        let sql = `SELECT merk.name FROM merk ORDER BY merk.name ASC`;
+        db.all(sql, (err, rows) => {
+            if(err){console.log(err);}
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                $("#merkOpt").append(
+                    `<option value="`+ row.name +`">`+ row.name +`</option>`);        
+            }
+        });
+    }
+
+    // ADD CATEGORY
+    function addCat(){
+        var catName = document.getElementById("catName").value;
+
+        let sql = `INSERT INTO categories(name) VALUES(?) ;`;
+        db.run(sql, [catName], (err) => {
+            if(err){console.log(err);}         
+            $('.successModal').modal('show');
+        });
+    }
+
+    // ADD SUBCATEGORY
+    function addSubCat(){
+        var subCatName = document.getElementById("subCatName").value;
+
+        let sql = `INSERT INTO subcategories(name) VALUES(?) ;`;
+        db.run(sql, [subCatName], (err) => {
+            if(err){console.log(err);}         
+            $('.successModal').modal('show');
+        });
+    }
+
+    // ADD Company
+    function addCompany(){
+        var companyName = document.getElementById("companyName").value;
+
+        let sql = `INSERT INTO company(name) VALUES(?) ;`;
+        db.run(sql, [companyName], (err) => {
+            if(err){console.log(err);}         
+            $('.successModal').modal('show');
+        });
+    }
+
+    // ADD Merk
+    function addMerk(){
+        var merkName = document.getElementById("merkName").value;
+
+        let sql = `INSERT INTO merk(name) VALUES(?) ;`;
+        db.run(sql, [merkName], (err) => {
+            if(err){console.log(err);}         
+            $('.successModal').modal('show');
+        });
+    }
+
+    // ADD PRODUCT
+    function addProduct(){
+        var name = document.getElementById("productname").value;
+        var barcode = document.getElementById("barcode").value;
+        var merk = document.getElementById("merkOpt").value;
+        var company = document.getElementById("companyOpt").value;
+        var category = document.getElementById("categoryOpt").value;
+        var subcategory = document.getElementById("subcategoryOpt").value;
+        var sellprice = document.getElementById("sellprice").value;
+
+        let sqli = `SELECT products.barcode FROM products WHERE products.barcode = "`+ barcode +`" `;
+        db.all(sqli, (err, rows) => {
+            if(err){console.log(err);}
+            if (rows.length == 0){
+                let sql = `INSERT INTO products(name, barcode, company, merk, category, subcategory, sellprice, view) VALUES(?, ?, ?, ?, ?, ?, ?, ?);`;
+                db.run(sql, [name, barcode, company, merk, category, subcategory, sellprice, 1], (err) => {
+                    if(err){console.log(err);}  
+                    $('.successModal').modal('show');       
+                });
+            } else {
+                for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                alert("Bu ürün kayıtlı");
+            }
+        }
+        });
+    }
+
+    // SELECT DIV BY BUTTONS
+    $(".step").on("click", function(){
+        var step = $(this).data("step");
+        $(".step-text").hide();
+        $("#step-text-" + step).show();
+        $(".step").removeClass("step-active");
+        $(this).addClass("step-active");
+    });
+
+    function reloadPage(){
+        location.reload();
+    }
+
+    
+
+</script>
+
+</body>
+</html>

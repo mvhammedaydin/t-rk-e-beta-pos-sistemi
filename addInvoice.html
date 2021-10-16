@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" name="viewport">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>AKAS Automaterialen</title>
+    <link rel="icon" type="image/x-icon" href="assets/img/logo.png"/>
+    <link rel="icon" href="assets/img/logo.png" type="image/png" sizes="16x16">
+    <link rel="stylesheet" href="assets/vendor/pace/pace.css">
+    <script src="assets/vendor/pace/pace.min.js"></script>
+    <!--vendors-->
+    <link rel="stylesheet" type="text/css" href="assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker3.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendor/jquery-scrollbar/jquery.scrollbar.css">
+    <link rel="stylesheet" href="assets/vendor/select2/css/select2.min.css">
+    <link rel="stylesheet" href="assets/vendor/jquery-ui/jquery-ui.min.css">
+    <link rel="stylesheet" href="assets/vendor/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="assets/vendor/timepicker/bootstrap-timepicker.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Hind+Vadodara:400,500,600" rel="stylesheet">
+    <link rel="stylesheet" href="assets/fonts/jost/jost.css">
+    <!--Material Icons-->
+    <link rel="stylesheet" type="text/css" href="assets/fonts/materialdesignicons/materialdesignicons.min.css">
+    <!--Bootstrap + atmos Admin CSS-->
+    <link rel="stylesheet" type="text/css" href="assets/css/atmos.css">
+    <!-- Additional library for page -->
+    <link rel="stylesheet" href="assets/vendor/datedropper/datedropper.min.css">
+    <link rel="stylesheet" href="assets/vendor/dropzone/dropzone.css">
+
+    <style>
+        .unclickable{
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+    </style>
+
+</head>
+
+<body class="jumbo-page  gradient-01">
+
+
+<main class="admin-main">
+
+    <section class="admin-content">
+
+        <div class="container-fluid  ">
+            <div class="row m-h-100 align-items-center justify-content-center">
+                <div class="col-lg-6 col-md-10 p-t-80">
+                    <div class="card shadow-lg">
+                        <div class=" p-all-25">
+                            <div class="pull-up-sm text-center p-b-30">
+                                <div class="avatar avatar avatar-lg">
+                                    <img src="assets/img/logo.png" alt="">
+                                </div>
+                                <div>
+                                    <button class="btn btn-primary" style="float:right;" data-toggle="modal" data-target=".taxCalc"><i class="fa fa-calculator"></i></button>
+                                </div>
+                            </div>
+                            <form class="form-horizontal">
+                                <div id="rootwizard">
+
+                                    <ul class="nav nav-pills nav-justified">
+                                        <li class="nav-item"><a class="nav-link unclickable" id="tab1Button" href="#tab1" data-toggle="tab">Fatura
+                                                Numarası</a></li>
+                                        <li class="nav-item"><a class="nav-link unclickable" id="tab2Button" href="#tab2" data-toggle="tab">Distribütör
+                                                ve Tarih</a></li>
+                                        <li class="nav-item"><a class="nav-link unclickable" id="tab3Button" href="#tab3" data-toggle="tab">Ürün
+                                                </a></li>
+                                        <li class="nav-item"><a class="nav-link unclickable" id="tab4Button" href="#tab4" data-toggle="tab">Ödeme
+                                                </a></li>
+                                    </ul>
+
+                                    <div class="tab-content">
+                                        <div class="tab-pane p-t-20 p-b-20" id="tab1">
+                                            <div class="form-group">
+                                                <label for="invoiceNum">Fatura Numarası</label>
+                                                <input type="text" class="form-control" id="code"
+                                                    aria-describedby="invoiceHelp" placeholder="Fatura Numarası Giriniz">
+                                                <small id="invoiceHelp" class="form-text text-muted">Faturanızda bulunan Belge No veya
+                                                    Fatura No kısmında yazan numarayı giriniz.
+                                                </small>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane p-t-20 p-b-20" id="tab2">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class=" form-group">
+                                                        <label>Distribütör</label>
+                                                        <select class="form-control form-control-lg" id="companyOpt">
+                                                            <option value="0" selected>Distribütör Seçiniz</option>
+                                                        </select>                                
+                                                    </div>    
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div>
+                                                        <div class="font-secondary">
+                        
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Fatura Tarihi</label>
+                                                            <input id="invoiceDate" class="form-control datedropper" data-large-mode="true" type="text">
+                                                        </div>
+                                                    </div>        
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane p-t-20 p-b-20" id="tab3">
+                                            <div class="row" style="margin: 20px 0px; padding: 10px 20px;">
+                                                <div class="col-md-12" style="text-align: center; margin-bottom: 10px;">
+                                                    <h4>Toplam Fatura Tutarı: ₺<span id="itotal"></span></h4>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input type="text" class="form-control" id="name"
+                                                        placeholder="Ürün">    
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input type="text" class="form-control" id="qty"
+                                                        placeholder="Adet">    
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input type="text" class="form-control" id="buyprice"
+                                                        placeholder="Alış Fiyatı">    
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <button style="width: 100%;" class="btn btn-primary" onclick="addToTable();"><i class="fa fa-plus"></i></button>
+                                                </div>
+                                                <div class="col-md-12" style="margin-top: 20px;">
+                                                    <table class="table" style="width:100%; max-height: 100px;" id="invoicePrTable">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Ürün</th>
+                                                                <th>Adet</th>
+                                                                <th>Alış Fiyatı</th>
+                                                                <th>
+                                                                    <button class="btn btn-danger btn-xs" onclick="cancelProduct()"><i class="fa fa-times"></i></button>                                                                
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+
+                                                        </tbody>
+                                                    </table>            
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane p-t-20 p-b-20" id="tab4">
+                                            <div class="row" style="margin: 20px 0px; padding: 10px 20px;">
+                                                <div class="col-md-6">
+                                                    <div class=" form-group">
+                                                        <label>Ödeme Yöntemi</label>
+                                                        <select class="form-control form-control-lg" onchange="organizePayment();" id="paymentOpt">
+                                                            <option value="Nakit" selected>Nakit</option>
+                                                            <option value="Kart">Kart</option>
+                                                            <option value="Nakit/Kart">Nakit/Kart</option>
+                                                            <option value="Açık Hesap">Açık Hesap</option>
+                                                        </select>                                
+                                                    </div>    
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="cashPay">Nakit Ödeme Miktarı</label>
+                                                        <input type="text" class="form-control" id="cashPay"
+                                                            placeholder="Nakit Yapılan Ödeme">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="cardPay">Kart Ödeme Miktarı</label>
+                                                        <input type="text" class="form-control" id="cardPay"
+                                                            placeholder="Kart ile Yapılan Ödeme">
+                                                    </div>                
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <button class="btn btn-success" style="width: 100%;" onclick="addBoth();">Faturayı Onayla</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <ul class="nav nav-pills justify-content-between wizard m-b-30">
+                                            <li class=" nav-item back"><a class="nav-link btn-danger"
+                                                href="#!" onclick="checkOrder();" id="backbutton">Geri</a></li>
+                                            <li class=" nav-item next"><a class="nav-link btn-success"
+                                                href="#!" onclick="checkOrder();" id="nextbutton">İleri</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </form>
+                            <p class="text-center">
+                                <a href="invoices.html" class="text-underline">Faturalarım'a Geri Dön</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- SUCCES MODAL -->
+<div class="modal fade bd-example-modal-sm successModal" tabindex="-1" role="dialog"
+        aria-labelledby="myLargeModalLabel" style="z-index: 3000;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="px-3 pt-3 text-center">
+                    <div class="event-type success">
+                        <div class="event-indicator ">
+                            <i class="mdi mdi-check text-white" style="font-size: 60px"></i>
+                        </div>
+                    </div>
+                    <h3 class="pt-3">İşlemi Onaylayın!</h3>
+                    <p class="text-muted">
+                        Bu bildirimi onaylayarak devam edebilirsiniz.
+                    </p>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" onclick="location.reload();" data-dismiss="modal">
+                    Onayla
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CALCULATE TAX -->
+<div class="modal fade bd-example-modal-lg taxCalc" tabindex="-1" role="dialog"
+        aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myLargeModalLabel">ÜRÜN GELİŞİ HESAPLAMA</h5>
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="form-group col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label>Birim Fiyatı</label>
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1"><i class="fa fa-money"></i></span>
+                                                </div>
+                                                <input type="number" id="birimHesap" class="form-control" aria-describedby="basic-addon1" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="name">İskonto Tutarı %</label>
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1"><i class="fa fa-percentage"></i></span>
+                                                </div>
+                                                <input type="number" id="iskontoHesap" class="form-control" aria-describedby="basic-addon1" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>Kategori</label>
+                                            <div class="input-group mb-3">
+                                                <select class="form-control form-control-lg" id="kdvHesap" required>
+                                                    <option value="1.08">Gıda</option>
+                                                    <option value="1.18">Alkol</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary" onclick="taxCalc();">HESAPLA</button>
+                                    <div id="taxCalcResult" style="text-align: right;">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    Kapat
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="./assets/vendor/jquery/jquery.min.js"></script>
+<script src="./assets/vendor/jquery/jquery.min.js"></script>
+<script src="assets/vendor/jquery-ui/jquery-ui.min.js"></script>
+<script src="assets/vendor/popper/popper.js"></script>
+<script src="assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/vendor/select2/js/select2.full.min.js"></script>
+<script src="assets/vendor/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+<script src="assets/vendor/listjs/listjs.min.js"></script>
+<script src="assets/vendor/moment/moment.min.js"></script>
+<script src="assets/vendor/daterangepicker/daterangepicker.js"></script>
+<script src="assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+<script src="assets/vendor/bootstrap-notify/bootstrap-notify.min.js"></script>
+<script src="assets/js/fontawesome.min.js"></script>
+<script src="assets/js/atmos.js"></script>
+<script src="assets/js/dashboard.js"></script>
+<!--page specific scripts for demo-->
+<script src="assets/vendor/timepicker/bootstrap-timepicker.min.js"></script>
+<script src="assets/vendor/datedropper/datedropper.js"></script>
+<script src="assets/vendor/dropzone/dropzone.js"   ></script>
+<script src="assets/vendor/jquery.mask/jquery.mask.min.js"></script>
+<script src="assets/vendor/jquery.bootstrap.wizard/jquery.bootstrap.wizard.min.js"></script>
+<script src="assets/js/form-wizard-data.js"></script>
+<script src="assets/js/form-data.js"></script>
+
+<script>
+    // config variables
+    var config = require("./src/config");
+    var db = config.db;
+    products = [];
+
+    $(document).ready(function(){
+        getCompany();
+        organizePayment();
+        checkOrder();
+    });
+
+    function checkOrder(){
+        setTimeout(function() 
+        {if ($("#tab1Button").hasClass("active")){
+            $("#backbutton").hide();
+        } else {
+            $("#backbutton").show();
+        }
+        if ($("#tab4Button").hasClass("active")){
+            $("#nextbutton").hide();
+        } else {
+            $("#nextbutton").show();
+        };},100);
+    }
+
+
+    // ADD BOTH
+    function addBoth(){
+        window.onbeforeunload = function() {
+        return "Fatura Sistemi Hazırlanıyor!";
+        }
+        setTimeout(function() {window.onbeforeunload = null;},500);
+        addInvoice();
+        addInvoiceProducts();
+    } 
+
+    // ADD INVOICE PRODUCTS
+    function addInvoiceProducts(){
+        var company = document.getElementById("companyOpt").value;
+
+        var checker = document.getElementById("invoicePrTable").rows.length;
+        console.log(checker);
+        if(checker == 1 || company == "0"){  
+            console.log("Tüm alanları doldurduğunuzdan emin olun");
+        } else {
+            for (let i = 0; i < products.length; i++) {
+                const product = products[i];
+                let sql2 = `INSERT INTO invoices_products(idi, name, qty, buyprice) VALUES(?, ?, ?, ?);`;
+                db.run(sql2, [product.idi, product.name, product.qty, product.buyprice], (err) => {
+                    if(err){console.log(err);} 
+                    console.log("Done Invoices Products");
+                });
+            }
+        }
+    }
+
+    // TAX CALCULATOR
+    function taxCalc(){
+        var birim = document.getElementById("birimHesap").value;
+        var iskonto = document.getElementById("iskontoHesap").value;
+        var kdv = document.getElementById("kdvHesap").value;
+
+        var result = (birim - (birim * iskonto / 100)) * kdv ;
+
+        $("#taxCalcResult").empty();
+        $("#taxCalcResult").append(
+            `<h3 style="font-size: 60px;">₺ ` + result.toFixed(2) + `</h3>`);
+
+    }
+
+    // ADD INVOICE
+    function addInvoice(){
+        var code = document.getElementById("code").value;
+        var company = document.getElementById("companyOpt").value;
+        var date = document.getElementById("invoiceDate").value;
+        var itotalEnd = Number(document.getElementById("itotal").innerHTML);
+        var payment = document.getElementById("paymentOpt").value;
+        var card = Number(document.getElementById("cardPay").value);
+        var cash = Number(document.getElementById("cashPay").value);
+        var ptotal = Number(card + cash);
+
+        var checker = document.getElementById("invoicePrTable").rows.length;
+        console.log(checker);
+        if(checker == 1 || company == "0"){  
+            alert("Tüm alanları doldurduğunuzdan emin olun")
+        } else {
+            let sql = `INSERT INTO invoices(code, company, date, itotal, ptotal, payment, card, cash, view) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+            db.run(sql, [code, company, date, itotalEnd, ptotal, payment, card, cash, 1], (err) => {
+                if(err){console.log(err);} 
+                console.log("Done Invoices");
+                $('.successModal').modal('show');
+            });
+        }
+    }
+
+    function addToTable(){
+        var idiInp = document.getElementById("code").value;
+        var nameInp = document.getElementById("name").value;
+        var qtyInp = document.getElementById("qty").value;
+        var buypriceInp = document.getElementById("buyprice").value;
+        
+        if(idiInp == "" || nameInp == "" || qtyInp == "" || buypriceInp == ""){
+            alert("Lütfen Alanların Hepsini Doldurun");
+        } else {
+            // add product 
+            var idi = idiInp;
+            var name = nameInp;
+            var qty = qtyInp;
+            var buyprice = buypriceInp;
+            products.push({idi: idi, name: name, qty: qty, buyprice: buyprice});
+            getProducts();
+
+            window.onbeforeunload = function() {
+            return "Fatura Sistemi Hazırlanıyor!";
+            }
+            setTimeout(function() {window.onbeforeunload = null;},3000);
+            $('#name').val('');
+            $('#qty').val('');
+            $('#buyprice').val('');
+        }
+    }
+
+    function getProducts(){
+        // delete stock from database if 0 on statrup application
+        $("#invoicePrTable tbody").empty();
+        var itotal = 0;
+        for (let i = 0; i < products.length; i++) {
+            var product = products[i];
+            $("#invoicePrTable tbody").append(
+                `<tr>
+                    <td>`+ product.name +`</td>
+                    <td>` + product.qty + `</td>
+                    <td>₺`+ product.buyprice +`</td>
+                </tr>`); 
+            itotal += (product.qty * product.buyprice);
+        }
+        
+        $("#itotal").html(itotal);
+    }
+
+    function cancelProduct(){
+        if (products.length > 0) {
+            products = [];
+            getProducts();
+        }
+    }
+
+    function organizePayment(){
+        var selectedPayment = document.getElementById("paymentOpt").value;
+
+        if(selectedPayment == "Nakit"){
+            $('#cashPay').val('');
+            $('#cardPay').val('0');
+            document.getElementById('cashPay').readOnly = false;
+            document.getElementById('cardPay').readOnly = true;
+        } else if (selectedPayment == "Kart"){
+            $('#cashPay').val('0');
+            $('#cardPay').val('');
+            document.getElementById('cashPay').readOnly = true;
+            document.getElementById('cardPay').readOnly = false;
+        } else if (selectedPayment == "Nakit/Kart"){
+            $('#cashPay').val('');
+            $('#cardPay').val('');
+            document.getElementById('cashPay').readOnly = false;
+            document.getElementById('cardPay').readOnly = false;
+        } else {
+            $('#cashPay').val('0');
+            $('#cardPay').val('0');
+            document.getElementById('cashPay').readOnly = true;
+            document.getElementById('cardPay').readOnly = true;
+        }
+    }
+
+    // GET COMPANY
+    function getCompany(){
+        let sql = `SELECT company.name FROM company ORDER BY company.name ASC`;
+        db.all(sql, (err, rows) => {
+            if(err){console.log(err);}
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                $("#companyOpt").append(
+                    `<option value="`+ row.name +`">`+ row.name +`</option>`);        
+            }
+        });
+    }
+
+</script>
+</body>
+</html>
